@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_app_list_transparent">#55000000</color>
+    <color name="bg_dialer_transparent">#55101010</color>
+    <color name="bg_input_box_transparent">#aa101010</color>
+
+    <color name="bg_dialer_footer_pressed">#55ffffff</color>
+    <color name="bg_dialer_footer_normal">#00000000</color>
+</resources>

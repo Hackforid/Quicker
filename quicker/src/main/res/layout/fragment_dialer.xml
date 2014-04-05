@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                               android:layout_width="match_parent"
+                               android:layout_height="match_parent"
+                               android:background="@color/bg_app_list_transparent"
+    >
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/tv_num"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dial_header_height"
+        android:background="@color/bg_input_box_transparent"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:visibility="gone"
+        android:singleLine="true"
+        />
+
+    <RelativeLayout
+        android:id="@+id/rl_footer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dial_footer_height"
+        android:layout_alignParentBottom="true"
+        android:background="#641a1717"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_setting"
+            android:layout_width="@dimen/dial_footer_button_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/selector_tansparent"
+            >
+
+            <ImageView
+                android:id="@+id/iv_setting"
+                android:layout_width="@dimen/dial_footer_height"
+                android:layout_height="@dimen/dial_footer_height"
+                android:layout_centerInParent="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/settings"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_backspace"
+            android:layout_width="@dimen/dial_footer_button_width"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/selector_tansparent"
+            >
+            <ImageView
+                android:id="@+id/iv_backspace"
+                android:layout_width="@dimen/dial_footer_height"
+                android:layout_height="@dimen/dial_footer_height"
+                android:layout_centerInParent="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/backspace"
+                />
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_dialer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@id/rl_setting"
+            android:layout_toLeftOf="@id/rl_backspace"
+            android:background="@drawable/selector_tansparent"
+            >
+            <ImageView
+                android:id="@+id/iv_dialer"
+                android:layout_width="@dimen/dial_footer_height"
+                android:layout_height="@dimen/dial_footer_height"
+                android:layout_centerInParent="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/dialer_pad_open"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/lv_apps"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tv_num"
+        android:layout_above="@id/rl_footer"
+        android:paddingBottom="@dimen/keyboard_height"
+        android:divider="@android:color/darker_gray"
+        />
+
+    <GridLayout
+        android:id="@+id/gl_keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/keyboard_height"
+        android:background="@drawable/bg_keyboard"
+        android:layout_above="@id/rl_footer"
+        android:columnCount="3"
+        android:rowCount="3"
+        >
+    </GridLayout>
+
+</RelativeLayout>
