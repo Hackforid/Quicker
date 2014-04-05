@@ -30,7 +30,6 @@ public class KeyView extends FrameLayout {
         mNum = num;
 
         if (mNum < 0 || mNum > 9) {
-            // TODO warning or throw exception
             return;
         }
 

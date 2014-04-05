@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,7 +58,7 @@ public class DialFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAppAdapter = new AppAdapter(getActivity(), this, new ArrayList<AppInfo>());
-        mAppManager = new AppManager(getActivity());
+        mAppManager = new AppManager(getActivity(), getLoaderManager());
         mKeyBoradHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_height);
         mNumStr = "";
         loadApps();
@@ -108,7 +107,7 @@ public class DialFragment extends Fragment{
 
             @Override
             protected Void doInBackground(Void... voids) {
-                mAppManager.getAllAppName();
+                mAppManager.loadInstalledApps();
                 return null;
             }
         }.execute();

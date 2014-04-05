@@ -14,16 +14,17 @@ import com.smilehacker.quicker.utils.DLog;
  */
 public class SPManager {
 
-    private final static String T9_PINYIN = "t9_pinyin";
+    private final static String CONFIG = "config";
+    private final static String CONFIG_IS_INIT = "config_is_init";
 
     private static SPManager mInstance;
+    private SharedPreferences mConfigData;
 
     private Gson mGson;
-    private SharedPreferences mPinYinData;
 
     private SPManager(Context context) {
         mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
-        mPinYinData = context.getSharedPreferences(T9_PINYIN, 0);
+        mConfigData = context.getSharedPreferences(CONFIG, 0);
     }
 
     public static SPManager getInstance(Context context) {
@@ -33,43 +34,11 @@ public class SPManager {
         return mInstance;
     }
 
-    public T9PinYin getT9ByName(String name) {
-        String pinyinJson = mPinYinData.getString(name, null);
-
-        if (pinyinJson == null) {
-            return null;
-        }
-
-        T9PinYin pinYin = null;
-        try {
-            pinYin = mGson.fromJson(pinyinJson, T9PinYin.class);
-        } catch (Exception e) {
-            DLog.e(e.toString());
-        }
-
-        return pinYin;
+    public void setIsInit(Boolean isInit) {
+        mConfigData.edit().putBoolean(CONFIG_IS_INIT, isInit).commit();
     }
 
-    public void saveT9(T9PinYin pinYin) {
-        String pinYinJson;
-        try {
-            pinYinJson = mGson.toJson(pinYin);
-        } catch (Exception e) {
-            DLog.e(e.toString());
-            return;
-        }
-
-        mPinYinData.edit().putString(pinYin.name, pinYinJson).commit();
+    public Boolean isInit() {
+        return mConfigData.getBoolean(CONFIG_IS_INIT, false);
     }
-
-    public void saveT9(AppInfo appInfo) {
-        T9PinYin pinYin = new T9PinYin();
-        pinYin.name = appInfo.appName;
-        pinYin.fullT9 = appInfo.fullT9;
-        pinYin.shortT9 = appInfo.shortT9;
-        saveT9(pinYin);
-    }
-
-
-
 }
