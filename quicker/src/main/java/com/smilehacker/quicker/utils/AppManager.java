@@ -68,6 +68,10 @@ public class AppManager {
         };
     }
 
+    public void loadAllApps() {
+
+    }
+
     public void loadInstalledApps() {
         if (mSPManager.isInit()) {
             long time = System.currentTimeMillis();
