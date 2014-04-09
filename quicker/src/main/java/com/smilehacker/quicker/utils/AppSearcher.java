@@ -15,13 +15,13 @@ public class AppSearcher {
         for (AppInfo appInfo: appInfos) {
             double priority = Double.MIN_VALUE;
             for (String num: appInfo.fullT9) {
-                double p = computePriority(inputNum, num, true);
+                double p = computePriority(inputNum, num, true, appInfo.launchCount);
                 if (p > priority) {
                     priority = p;
                 }
             }
             for (String num: appInfo.shortT9) {
-                double p = computePriority(inputNum, num, false);
+                double p = computePriority(inputNum, num, false, appInfo.launchCount);
                 if (p > priority) {
                     priority = p;
                 }
@@ -34,7 +34,7 @@ public class AppSearcher {
         return appInfos;
     }
 
-    private static double computePriority(String inputNum, String appNum, Boolean isFullNum) {
+    private static double computePriority(String inputNum, String appNum, Boolean isFullNum, long launchCount) {
         double priority = 0;
 
         int matchPos = BoyerMoore.match(inputNum, appNum);
@@ -46,7 +46,7 @@ public class AppSearcher {
         int inputNumLength = inputNum.length();
 
         //priority = inputNumLength / appNumLength * matchPos + (isFullNum ? 0 : 1) * 3;
-        priority = (appNumLength - matchPos) / (appNumLength - inputNumLength + 1) * (isFullNum ? 1 : 1.2);
+        priority = (appNumLength - matchPos + launchCount * 1.5) / (appNumLength - inputNumLength + 1) * (isFullNum ? 1 : 1.2);
 
 
         return priority;

@@ -19,6 +19,6 @@ public class PackageUpdateReceiver extends BroadcastReceiver {
 
         DLog.i("reload apps");
         AppManager appManager = new AppManager(context);
-        appManager.loadAndStoreAppsFromSys();
+        appManager.loadInstalledApps();
     }
 }

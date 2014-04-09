@@ -58,7 +58,7 @@ public class DialFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAppAdapter = new AppAdapter(getActivity(), this, new ArrayList<AppInfo>());
-        mAppManager = new AppManager(getActivity(), getLoaderManager());
+        mAppManager = new AppManager(getActivity());
         mKeyBoradHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_height);
         mNumStr = "";
         loadApps();
@@ -107,7 +107,9 @@ public class DialFragment extends Fragment{
 
             @Override
             protected Void doInBackground(Void... voids) {
+                long time = System.currentTimeMillis();
                 mAppManager.loadInstalledApps();
+                DLog.i("read apps cost " + (System.currentTimeMillis() - time));
                 return null;
             }
         }.execute();
@@ -341,6 +343,7 @@ public class DialFragment extends Fragment{
     }
 
     public void openAppAndHideDialer(AppInfo appInfo) {
+
         PackageHelper packageHelper = new PackageHelper(getActivity());
         mShouldRest = true;
 
@@ -354,5 +357,7 @@ public class DialFragment extends Fragment{
         } catch (Exception e) {
             DLog.e(e.toString());
         }
+
+        mAppManager.increaseLaunchCount(appInfo);
     }
 }
