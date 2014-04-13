@@ -11,7 +11,7 @@ import com.smilehacker.quicker.R;
 /**
  * Created by kleist on 14-4-1.
  */
-public class KeyView extends FrameLayout {
+public class KeyView extends RelativeLayout {
 
     private String[] mLetter = {"", "0", "ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"};
 
@@ -28,6 +28,8 @@ public class KeyView extends FrameLayout {
      */
     public KeyView(Context context, int num) {
         super(context);
+        setBackgroundResource(R.drawable.selector_tansparent);
+
         mNum = num;
 
         if (mNum < 0 || mNum > 9) {

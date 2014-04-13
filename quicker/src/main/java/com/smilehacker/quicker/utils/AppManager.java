@@ -10,6 +10,8 @@ import com.smilehacker.quicker.data.SPManager;
 import com.smilehacker.quicker.data.model.AppInfo;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,7 +41,6 @@ public class AppManager {
         mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     }
 
-
     public void loadInstalledApps() {
         List<AppInfo> appList = new ArrayList<AppInfo>();
         HashMap<String, AppInfo> appMap = new HashMap<String, AppInfo>();
@@ -67,6 +68,7 @@ public class AppManager {
 
         transaction.setSuccessful(true);
         transaction.finish();
+
 
         mAppInfos.clear();
         mAppInfos.addAll(appList);
@@ -145,6 +147,17 @@ public class AppManager {
     public void increaseLaunchCount(AppInfo appInfo) {
         appInfo.launchCount += 1;
         appInfo.save();
+    }
+
+    public List<AppInfo> getRecentUpdateApps() {
+        List<AppInfo> appInfos = new ArrayList<AppInfo>(mAppInfos);
+        Collections.sort(appInfos, new Comparator<AppInfo>() {
+            @Override
+            public int compare(AppInfo appInfo, AppInfo appInfo2) {
+                return -appInfo.updateDate.compareTo(appInfo2.updateDate);
+            }
+        });
+        return appInfos;
     }
 
 }

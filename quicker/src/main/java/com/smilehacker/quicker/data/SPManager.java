@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.smilehacker.quicker.data.model.AppInfo;
-import com.smilehacker.quicker.data.model.T9PinYin;
-import com.smilehacker.quicker.utils.DLog;
 
 /**
  * Created by kleist on 14-4-5.

@@ -1,5 +1,7 @@
 package com.smilehacker.quicker.data.model;
 
+import java.util.Date;
+
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.annotations.Expose;
 
@@ -44,6 +46,14 @@ public class AppInfo extends Model {
     @Column("launch_count")
     public long launchCount = 0;
 
+    @Column("update_date")
+    public Date updateDate;
+
     public double priority;
 
+    @Override
+    protected void beforeSave() {
+        super.beforeSave();
+        updateDate = new Date();
+    }
 }

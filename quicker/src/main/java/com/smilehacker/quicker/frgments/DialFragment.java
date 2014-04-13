@@ -97,22 +97,27 @@ public class DialFragment extends Fragment{
     }
 
     private void loadApps() {
-        new AsyncTask<Void, Void, Void>() {
+//        new AsyncTask<Void, Void, Void>() {
+//
+//            @Override
+//            protected void onPostExecute(Void aVoid) {
+//                super.onPostExecute(aVoid);
+//                mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
+//                mIsLoadApps = true;
+//            }
+//
+//            @Override
+//            protected Void doInBackground(Void... voids) {
+//                long time = System.currentTimeMillis();
+//                mAppManager.loadInstalledApps();
+//                DLog.i("read apps cost " + (System.currentTimeMillis() - time));
+//                return null;
+//            }
+//        }.execute();
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                mIsLoadApps = true;
-            }
-
-            @Override
-            protected Void doInBackground(Void... voids) {
-                long time = System.currentTimeMillis();
-                mAppManager.loadInstalledApps();
-                DLog.i("read apps cost " + (System.currentTimeMillis() - time));
-                return null;
-            }
-        }.execute();
+        mAppManager.loadInstalledApps();
+        mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
+        mIsLoadApps = true;
     }
 
     private void initView() {
@@ -336,6 +341,7 @@ public class DialFragment extends Fragment{
     }
 
     private void restDialer() {
+        mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
         mNumStr = "";
         mTvNum.setText("");
         showInputBox(false);
