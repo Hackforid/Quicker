@@ -35,7 +35,7 @@ public class AppSearcher {
     }
 
     private static double computePriority(String inputNum, String appNum, Boolean isFullNum, long launchCount) {
-        double priority = 0;
+        double priority;
 
         int matchPos = BoyerMoore.match(inputNum, appNum);
         if (matchPos == -1) {

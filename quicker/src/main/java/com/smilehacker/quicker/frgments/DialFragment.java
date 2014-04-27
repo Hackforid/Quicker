@@ -32,7 +32,6 @@ import com.smilehacker.quicker.utils.DLog;
 import com.smilehacker.quicker.utils.PackageHelper;
 import com.smilehacker.quicker.views.KeyView;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
@@ -163,8 +162,7 @@ public class DialFragment extends Fragment{
         TypedArray actionbarSizeTypedArray = getActivity().obtainStyledAttributes(new int[] {
                 android.R.attr.actionBarSize
         });
-        float actionbarHeight = actionbarSizeTypedArray.getDimension(0, getResources().getDimensionPixelSize(R.dimen.dial_header_height));
-        return actionbarHeight;
+        return actionbarSizeTypedArray.getDimension(0, getResources().getDimensionPixelSize(R.dimen.dial_header_height));
     }
 
     private int getStatusBarHeight() {

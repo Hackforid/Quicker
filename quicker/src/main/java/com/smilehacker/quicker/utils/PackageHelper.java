@@ -34,7 +34,7 @@ public class PackageHelper {
     }
 
     public void openApp(String packageName) {
-        PackageInfo pi = null;
+        PackageInfo pi;
         try {
             pi = mPackageManager.getPackageInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {

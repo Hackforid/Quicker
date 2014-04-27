@@ -2,7 +2,6 @@ package com.smilehacker.quicker.views;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 

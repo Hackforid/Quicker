@@ -2,7 +2,6 @@ package com.smilehacker.quicker.utils;
 
 import android.text.TextUtils;
 
-import com.smilehacker.quicker.data.SPManager;
 import com.smilehacker.quicker.data.model.AppInfo;
 
 import net.sourceforge.pinyin4j.PinyinHelper;

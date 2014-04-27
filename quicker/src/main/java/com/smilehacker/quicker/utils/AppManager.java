@@ -1,11 +1,9 @@
 package com.smilehacker.quicker.utils;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.os.Parcel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,12 +14,10 @@ import com.smilehacker.quicker.data.model.event.AppEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import hugo.weaving.DebugLog;
-import se.emilsjolander.sprinkles.ModelList;
 import se.emilsjolander.sprinkles.Query;
 import se.emilsjolander.sprinkles.Transaction;
 
@@ -170,8 +166,7 @@ public class AppManager {
 
 
     public List<AppInfo> search(String inputNum) {
-        List<AppInfo> appInfos = AppSearcher.search(mAppInfos, inputNum);
-        return appInfos;
+        return AppSearcher.search(mAppInfos, inputNum);
     }
 
     private Boolean isLaunchable(PackageInfo packageInfo) {

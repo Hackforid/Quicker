@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class AppEvent {
 
-    public enum AppEventType  {REFRESH};
+    public enum AppEventType  {REFRESH}
     public List<AppInfo> appInfos;
     public AppEventType type;
 

@@ -70,7 +70,6 @@ public class AppInfo extends Model {
     }
 
     public static AppInfo getAppByPackage(String packageName) {
-        AppInfo appInfo = Query.one(AppInfo.class, "SELECT * FROM app WHERE package_name = ?", packageName).get();
-        return appInfo;
+        return Query.one(AppInfo.class, "SELECT * FROM app WHERE package_name = ?", packageName).get();
     }
 }

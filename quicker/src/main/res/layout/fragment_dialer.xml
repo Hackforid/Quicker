@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_alignParentBottom="true"
-        android:background="#641a1717"
+        android:background="@color/bg_footer"
         />
 
     <RelativeLayout
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dial_footer_height"
         android:layout_above="@id/v_navigation"
-        android:background="#641a1717"
+        android:background="@color/bg_footer"
         >
 
         <RelativeLayout
