@@ -4,8 +4,10 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -13,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.GridLayout;
 import android.widget.ListView;
@@ -28,6 +32,7 @@ import com.smilehacker.quicker.utils.DLog;
 import com.smilehacker.quicker.utils.PackageHelper;
 import com.smilehacker.quicker.views.KeyView;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
@@ -45,6 +50,9 @@ public class DialFragment extends Fragment{
     private TextView mTvNum;
     private RelativeLayout mRlBackspace;
     private RelativeLayout mRlDialer;
+    private RelativeLayout mRlRoot;
+    private View mStatusBar;
+    private View mNavgationBar;
 
     private String mNumStr;
     private Boolean mIsKeyboardHide = false;
@@ -56,6 +64,8 @@ public class DialFragment extends Fragment{
     private AppAdapter mAppAdapter;
     private AppManager mAppManager;
     private EventBus mEventBus;
+
+    private Boolean mIsKitKat = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,7 +95,11 @@ public class DialFragment extends Fragment{
         mTvNum = (AutofitTextView) view.findViewById(R.id.tv_num);
         mRlBackspace = (RelativeLayout) view.findViewById(R.id.rl_backspace);
         mRlDialer = (RelativeLayout) view.findViewById(R.id.rl_dialer);
+        mRlRoot = (RelativeLayout) view.findViewById(R.id.rl_root);
+        mStatusBar = view.findViewById(R.id.v_status_bar);
+        mNavgationBar = view.findViewById(R.id.v_navigation);
 
+        setTransparent();
         setViewHeight();
         initKeyboard();
         initView();
@@ -113,16 +127,64 @@ public class DialFragment extends Fragment{
         mIsLoadApps = true;
     }
 
+    private void setTransparent() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            mIsKitKat = false;
+            return;
+        }
+
+        mIsKitKat = true;
+
+        Window window = getActivity().getWindow();
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
+        mStatusBar.setVisibility(View.VISIBLE);
+        ViewGroup.LayoutParams lp = mStatusBar.getLayoutParams();
+        lp.height = getStatusBarHeight();
+        mStatusBar.setLayoutParams(lp);
+
+        ViewGroup.LayoutParams navgationLp = mNavgationBar.getLayoutParams();
+        navgationLp.height = getNavigationBarHeight();
+        mNavgationBar.setLayoutParams(navgationLp);
+    }
+
     private void setViewHeight() {
+        int actionbarHeight = (int) getActionBarHeight();
+
+        mTvNum.setHeight(actionbarHeight);
+
+        ViewGroup.LayoutParams footerLayoutParams = mRlFooter.getLayoutParams();
+        footerLayoutParams.height = actionbarHeight;
+        mRlFooter.setLayoutParams(footerLayoutParams);
+    }
+
+    private float getActionBarHeight() {
         TypedArray actionbarSizeTypedArray = getActivity().obtainStyledAttributes(new int[] {
                 android.R.attr.actionBarSize
         });
-        float actionbarHeight = actionbarSizeTypedArray.getDimension(0, getActivity().getResources().getDimensionPixelSize(R.dimen.dial_header_height));
-        mTvNum.setHeight((int) actionbarHeight);
+        float actionbarHeight = actionbarSizeTypedArray.getDimension(0, getResources().getDimensionPixelSize(R.dimen.dial_header_height));
+        return actionbarHeight;
+    }
 
-        ViewGroup.LayoutParams footerLayoutParams = mRlFooter.getLayoutParams();
-        footerLayoutParams.height = (int) actionbarHeight;
-        mRlFooter.setLayoutParams(footerLayoutParams);
+    private int getStatusBarHeight() {
+        int statusBarHeight = 0;
+
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        }
+
+        return statusBarHeight;
+    }
+
+    private int getNavigationBarHeight() {
+        Resources resources = getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId);
+        }
+        return 0;
     }
 
     private void initView() {
@@ -306,10 +368,12 @@ public class DialFragment extends Fragment{
         if (isShow) {
             if (mTvNum.getVisibility() != View.VISIBLE) {
                 mTvNum.setVisibility(View.VISIBLE);
+                mStatusBar.setBackgroundColor(getResources().getColor(R.color.bg_input_box_transparent));
             }
         } else {
             if (mTvNum.getVisibility() != View.GONE) {
                 mTvNum.setVisibility(View.GONE);
+                mStatusBar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
             }
         }
     }

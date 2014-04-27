@@ -4,11 +4,20 @@
                                android:layout_width="match_parent"
                                android:layout_height="match_parent"
                                android:background="@color/bg_app_list_transparent"
+                               android:id="@+id/rl_root"
     >
+    <View
+        android:id="@+id/v_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        />
+
     <me.grantland.widget.AutofitTextView
         android:id="@+id/tv_num"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dial_header_height"
+        android:layout_below="@id/v_status_bar"
         android:background="@color/bg_input_box_transparent"
         android:textColor="@android:color/white"
         android:textSize="30sp"
@@ -18,11 +27,19 @@
         android:singleLine="true"
         />
 
+    <View
+        android:id="@+id/v_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentBottom="true"
+        android:background="#641a1717"
+        />
+
     <RelativeLayout
         android:id="@+id/rl_footer"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dial_footer_height"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@id/v_navigation"
         android:background="#641a1717"
         >
 
