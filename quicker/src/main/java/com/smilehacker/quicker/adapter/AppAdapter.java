@@ -15,6 +15,7 @@ import com.smilehacker.quicker.data.model.AppInfo;
 import com.smilehacker.quicker.frgments.DialFragment;
 import com.smilehacker.quicker.utils.PackageHelper;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -42,6 +43,16 @@ public class AppAdapter extends BaseAdapter {
     public void refreshApps(List<AppInfo> appInfos) {
         mAppInfos.clear();
         mAppInfos.addAll(appInfos);
+        notifyDataSetChanged();
+    }
+
+    public void updateApps(List<AppInfo> appInfos) {
+        for (Iterator<AppInfo> iterator = mAppInfos.iterator(); iterator.hasNext();) {
+            AppInfo appInfo = iterator.next();
+            if (!appInfos.contains(appInfo)) {
+                iterator.remove();
+            }
+        }
         notifyDataSetChanged();
     }
 

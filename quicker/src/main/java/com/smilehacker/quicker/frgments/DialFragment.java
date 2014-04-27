@@ -5,7 +5,6 @@ import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Point;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import com.smilehacker.quicker.R;
 import com.smilehacker.quicker.adapter.AppAdapter;
 import com.smilehacker.quicker.data.model.AppInfo;
+import com.smilehacker.quicker.data.model.event.AppEvent;
 import com.smilehacker.quicker.utils.AppManager;
 import com.smilehacker.quicker.utils.DLog;
 import com.smilehacker.quicker.utils.PackageHelper;
@@ -29,6 +29,7 @@ import com.smilehacker.quicker.views.KeyView;
 
 import java.util.ArrayList;
 
+import de.greenrobot.event.EventBus;
 import me.grantland.widget.AutofitTextView;
 
 /**
@@ -53,15 +54,24 @@ public class DialFragment extends Fragment{
 
     private AppAdapter mAppAdapter;
     private AppManager mAppManager;
+    private EventBus mEventBus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mAppAdapter = new AppAdapter(getActivity(), this, new ArrayList<AppInfo>());
-        mAppManager = new AppManager(getActivity());
+        mAppManager = AppManager.getInstance(getActivity());
         mKeyBoradHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_height);
         mNumStr = "";
+        mEventBus = EventBus.getDefault();
+        mEventBus.register(this);
         loadApps();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mEventBus.unregister(this);
     }
 
     @Override
@@ -92,9 +102,8 @@ public class DialFragment extends Fragment{
                 mKeyboardTop = mGlKeyboard.getTop();
             }
         });
-
-
     }
+
 
     private void loadApps() {
 //        new AsyncTask<Void, Void, Void>() {
@@ -115,7 +124,8 @@ public class DialFragment extends Fragment{
 //            }
 //        }.execute();
 
-        mAppManager.loadInstalledApps();
+        //mAppManager.loadInstalledApps();
+        mAppManager.load();
         mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
         mIsLoadApps = true;
     }
@@ -205,6 +215,14 @@ public class DialFragment extends Fragment{
 
             mGlKeyboard.addView(keyView);
             keyView.setOnClickListener(new KeyboradOnClickListener(i + 1));
+        }
+    }
+
+    @SuppressWarnings("UnusedDeclaration")
+    public void onEvent(AppEvent appEvent) {
+        DLog.i("get refresh apps");
+        if (appEvent.type == AppEvent.AppEventType.REFRESH) {
+            mAppAdapter.updateApps(appEvent.appInfos);
         }
     }
 

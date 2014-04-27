@@ -1,11 +1,14 @@
 package com.smilehacker.quicker.data.model;
 
 import java.util.Date;
+import java.util.List;
 
 import com.google.gson.annotations.SerializedName;
 import com.google.gson.annotations.Expose;
 
+import se.emilsjolander.sprinkles.CursorList;
 import se.emilsjolander.sprinkles.Model;
+import se.emilsjolander.sprinkles.Query;
 import se.emilsjolander.sprinkles.annotations.AutoIncrementPrimaryKey;
 import se.emilsjolander.sprinkles.annotations.Column;
 import se.emilsjolander.sprinkles.annotations.Table;
@@ -17,6 +20,8 @@ import se.emilsjolander.sprinkles.annotations.Unique;
 
 @Table("app")
 public class AppInfo extends Model {
+
+    public final static String tableName = "app";
 
     @AutoIncrementPrimaryKey
     @Column("id")
@@ -55,5 +60,17 @@ public class AppInfo extends Model {
     protected void beforeSave() {
         super.beforeSave();
         updateDate = new Date();
+    }
+
+    public static List<AppInfo> getInstalledApps() {
+        CursorList<AppInfo> appInfos = Query.all(AppInfo.class).get();
+        List<AppInfo> list = appInfos.asList();
+        appInfos.close();
+        return  list;
+    }
+
+    public static AppInfo getAppByPackage(String packageName) {
+        AppInfo appInfo = Query.one(AppInfo.class, "SELECT * FROM app WHERE package_name = ?", packageName).get();
+        return appInfo;
     }
 }

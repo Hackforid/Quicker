@@ -1,13 +1,17 @@
 package com.smilehacker.quicker.utils;
 
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.AsyncTask;
+import android.os.Parcel;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.smilehacker.quicker.data.SPManager;
 import com.smilehacker.quicker.data.model.AppInfo;
+import com.smilehacker.quicker.data.model.event.AppEvent;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +19,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+import hugo.weaving.DebugLog;
 import se.emilsjolander.sprinkles.ModelList;
 import se.emilsjolander.sprinkles.Query;
 import se.emilsjolander.sprinkles.Transaction;
@@ -30,51 +36,83 @@ public class AppManager {
     private SPManager mSPManager;
     private AppT9Parser mParser;
     private Gson mGson;
+    private EventBus mEventBus;
+
+    private static AppManager mInstance;
+
+    public static AppManager getInstance(Context context) {
+        if (mInstance == null) {
+            synchronized (AppManager.class) {
+                if (mInstance == null) {
+                    mInstance = new AppManager(context.getApplicationContext());
+                }
+            }
+        }
+
+        return mInstance;
+    }
 
 
-    public AppManager(Context context) {
+    private AppManager(Context context) {
         mContext = context;
         mAppInfos = new ArrayList<AppInfo>();
         mPackageManager = context.getPackageManager();
         mSPManager = SPManager.getInstance(context);
         mParser = new AppT9Parser();
         mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+        mEventBus = EventBus.getDefault();
     }
 
-    public void loadInstalledApps() {
-        List<AppInfo> appList = new ArrayList<AppInfo>();
-        HashMap<String, AppInfo> appMap = new HashMap<String, AppInfo>();
+    /**
+     * init app list
+     * read app from db at first
+     * then compare with sys in async
+     */
+    @DebugLog
+    public List<AppInfo> load() {
+        final List<AppInfo> appList = loadAppFromDB();
+        refreshAppList(appList);
 
-        long time = System.currentTimeMillis();
-        loadAppsFromSys(appList);
-        DLog.i("load app from sys cost " + (System.currentTimeMillis() - time));
+        new AsyncTask<Void, Void, List<AppInfo>>() {
 
-        time = System.currentTimeMillis();
-        readStoredApps(appMap);
-        DLog.i("read db cost " + (System.currentTimeMillis() - time));
-
-        Transaction transaction = new Transaction();
-
-        for (int i = 0, length = appList.size(); i < length; i++) {
-            AppInfo appInfo = appList.get(i);
-            AppInfo app = appMap.get(appInfo.packageName);
-            if (app != null) {
-                appList.set(i, app);
-            } else {
-                mParser.parseAppNameToT9(appInfo);
-                storeApp(appInfo, transaction);
+            @Override
+            protected List<AppInfo> doInBackground(Void... voids) {
+                return loadAppFromSys();
             }
-        }
 
-        transaction.setSuccessful(true);
-        transaction.finish();
+            @Override
+            protected void onPostExecute(List<AppInfo> appInfos) {
+                super.onPostExecute(appInfos);
+                updateSysAppsWithStored(appInfos, appList);
+                refreshAppList(appInfos, true);
+                updateStoredAppWithSys();
+            }
+        }.execute();
 
-
-        mAppInfos.clear();
-        mAppInfos.addAll(appList);
+        return appList;
     }
 
-    private void loadAppsFromSys(List<AppInfo> list) {
+    private void refreshAppList(List<AppInfo> appInfos) {
+        refreshAppList(appInfos, false);
+    }
+
+    private void refreshAppList(List<AppInfo> appInfos, Boolean shouldBroadcast) {
+        mAppInfos.clear();
+        mAppInfos.addAll(appInfos);
+        if (shouldBroadcast) {
+            DLog.i("refresh apps");
+            mEventBus.post(new AppEvent(mAppInfos));
+        } else {
+
+        }
+    }
+
+    private List<AppInfo> loadAppFromDB() {
+       return AppInfo.getInstalledApps();
+    }
+
+    private List<AppInfo> loadAppFromSys() {
+        List<AppInfo> list = new ArrayList<AppInfo>();
         List<PackageInfo> packages = mPackageManager.getInstalledPackages(PackageManager.PERMISSION_GRANTED);
 
         for (PackageInfo pkg : packages) {
@@ -86,7 +124,55 @@ public class AppManager {
             appInfo.packageName = pkg.packageName;
             list.add(appInfo);
         }
+
+        return list;
     }
+
+    private void updateSysAppsWithStored(List<AppInfo> sysApps, List<AppInfo> storedApps) {
+        Transaction transaction = new Transaction();
+        for (int i = 0, length = sysApps.size(); i < length; i++) {
+            AppInfo sysApp = sysApps.get(i);
+            AppInfo storedApp = findAppInListByPackage(storedApps, sysApp.packageName);
+            if (storedApp != null) {
+                sysApps.set(i, storedApp);
+            } else {
+                mParser.parseAppNameToT9(sysApp);
+                storeApp(sysApp, transaction);
+            }
+        }
+        transaction.setSuccessful(true);
+        transaction.finish();
+    }
+
+    private void updateStoredAppWithSys() {
+        List<AppInfo> storedApps = loadAppFromDB();
+
+        Transaction transaction = new Transaction();
+
+        for (AppInfo appInfo : storedApps) {
+            AppInfo sysApp = findAppInListByPackage(mAppInfos, appInfo.packageName);
+            if (sysApp == null) {
+                try {
+                    appInfo.delete(transaction);
+                } catch (Exception e) {
+                    DLog.d(e.toString());
+                }
+            }
+        }
+
+        transaction.setSuccessful(true);
+        transaction.finish();
+    }
+
+    private AppInfo findAppInListByPackage(List<AppInfo> list, String packageName) {
+        for (AppInfo appInfo: list) {
+            if (packageName.equals(appInfo.packageName)) {
+                return appInfo;
+            }
+        }
+        return null;
+    }
+
 
     public List<AppInfo> search(String inputNum) {
         List<AppInfo> appInfos = AppSearcher.search(mAppInfos, inputNum);
@@ -97,19 +183,6 @@ public class AppManager {
         return  mPackageManager.getLaunchIntentForPackage(packageInfo.packageName) != null;
     }
 
-    private void storeApps() {
-        Transaction transaction = new Transaction();
-        try {
-            for (AppInfo appInfo : mAppInfos) {
-                    appInfo.save(transaction);
-            }
-            transaction.setSuccessful(true);
-        } catch (Exception e) {
-            DLog.e(e.toString());
-        } finally {
-            transaction.finish();
-        }
-    }
 
     private void storeApp(AppInfo appInfo) {
         storeApp(appInfo, null);
@@ -121,21 +194,6 @@ public class AppManager {
         } else {
             appInfo.save();
         }
-    }
-
-    private void readStoredApps(HashMap<String, AppInfo> appInfoMap) {
-        for (AppInfo appInfo: Query.all(AppInfo.class).get()) {
-            try {
-                appInfoMap.put(appInfo.packageName, appInfo);
-            } catch (Exception e) {
-                DLog.e(e.toString());
-            }
-        }
-    }
-
-    private void clearDB() {
-        ModelList<AppInfo> list = ModelList.from(Query.all(AppInfo.class).get());
-        list.deleteAll();
     }
 
     public void increaseLaunchCount(String packageName) {
@@ -159,5 +217,6 @@ public class AppManager {
         });
         return appInfos;
     }
+
 
 }
