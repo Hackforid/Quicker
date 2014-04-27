@@ -13,9 +13,8 @@ import com.smilehacker.quicker.utils.DLog;
 public class PackageUpdateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        // TODO 应用更新逻辑
         String action = intent.getAction();
-        String packageName = intent.getDataString();
+        String packageName = intent.getDataString().substring(8);
 
 
         if (packageName.equals("com.smilehacker.quicker")) {
@@ -27,10 +26,10 @@ public class PackageUpdateReceiver extends BroadcastReceiver {
 
         if (action.equals(Intent.ACTION_PACKAGE_ADDED)) {
             DLog.i(String.format("install package %1$s", packageName));
-
+            appManager.addPackage(packageName);
         } else if (action.equals(Intent.ACTION_PACKAGE_REMOVED)) {
             DLog.i(String.format("uninstall package %1$s", packageName));
-
+            appManager.deletePackage(packageName);
         }
     }
 

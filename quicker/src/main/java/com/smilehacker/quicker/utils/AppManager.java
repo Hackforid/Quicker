@@ -84,7 +84,8 @@ public class AppManager {
             protected void onPostExecute(List<AppInfo> appInfos) {
                 super.onPostExecute(appInfos);
                 updateSysAppsWithStored(appInfos, appList);
-                refreshAppList(appInfos, true);
+                refreshAppList(appInfos);
+                broadcastAppUpdated();
                 updateStoredAppWithSys();
             }
         }.execute();
@@ -93,18 +94,12 @@ public class AppManager {
     }
 
     private void refreshAppList(List<AppInfo> appInfos) {
-        refreshAppList(appInfos, false);
-    }
-
-    private void refreshAppList(List<AppInfo> appInfos, Boolean shouldBroadcast) {
         mAppInfos.clear();
         mAppInfos.addAll(appInfos);
-        if (shouldBroadcast) {
-            DLog.i("refresh apps");
-            mEventBus.post(new AppEvent(mAppInfos));
-        } else {
+    }
 
-        }
+    private void broadcastAppUpdated() {
+        mEventBus.post(new AppEvent(mAppInfos));
     }
 
     private List<AppInfo> loadAppFromDB() {
@@ -218,5 +213,43 @@ public class AppManager {
         return appInfos;
     }
 
+    public void addPackage(String packageName) {
+        AppInfo storedAppInfo = AppInfo.getAppByPackage(packageName);
+        if (storedAppInfo != null) {
+            return;
+        }
+
+        PackageHelper packageHelper = new PackageHelper(mContext);
+        PackageInfo pkg = packageHelper.getPkgInfoByPkgName(packageName);
+        if (pkg == null) {
+            return;
+        }
+
+        AppInfo newApp = new AppInfo();
+        newApp.appName = mPackageManager.getApplicationLabel(pkg.applicationInfo).toString();
+        newApp.packageName = pkg.packageName;
+        mParser.parseAppNameToT9(newApp);
+
+        newApp.save();
+        mAppInfos.add(newApp);
+        broadcastAppUpdated();
+    }
+
+    public void deletePackage(String packageName) {
+        AppInfo appInfo = AppInfo.getAppByPackage(packageName);
+        if (appInfo == null) {
+            return;
+        }
+
+        appInfo.delete();
+        if (!mAppInfos.isEmpty()) {
+            AppInfo app = findAppInListByPackage(mAppInfos, packageName);
+            if (app != null) {
+                mAppInfos.remove(app);
+                broadcastAppUpdated();
+            }
+        }
+
+    }
 
 }
