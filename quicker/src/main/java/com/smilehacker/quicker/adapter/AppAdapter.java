@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.smilehacker.quicker.R;
 import com.smilehacker.quicker.data.model.AppInfo;
 import com.smilehacker.quicker.frgments.DialFragment;
+import com.smilehacker.quicker.utils.DLog;
 import com.smilehacker.quicker.utils.PackageHelper;
 
 import java.util.Iterator;
@@ -87,7 +88,11 @@ public class AppAdapter extends BaseAdapter {
         final AppInfo appInfo = mAppInfos.get(i);
         PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(appInfo.packageName);
         holder.tvAppName.setText(mAppInfos.get(i).appName);
-        holder.ivAppIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(mPackageManager));
+        try {
+            holder.ivAppIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(mPackageManager));
+        } catch (Exception e) {
+            DLog.d(e.toString());
+        }
 
         view.setOnClickListener(new View.OnClickListener() {
 

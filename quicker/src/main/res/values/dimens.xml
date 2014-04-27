@@ -9,5 +9,4 @@
     <dimen name="dialer_height">250dp</dimen>
 
     <dimen name="dial_footer_button_width">80dp</dimen>
-
 </resources>

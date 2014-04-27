@@ -6,4 +6,6 @@
 
     <color name="bg_dialer_footer_pressed">#55ffffff</color>
     <color name="bg_dialer_footer_normal">#00000000</color>
+
+    <color name="transparent">#9000</color>
 </resources>
