@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -85,6 +86,7 @@ public class DialFragment extends Fragment{
         mRlBackspace = (RelativeLayout) view.findViewById(R.id.rl_backspace);
         mRlDialer = (RelativeLayout) view.findViewById(R.id.rl_dialer);
 
+        setViewHeight();
         initKeyboard();
         initView();
 
@@ -106,28 +108,21 @@ public class DialFragment extends Fragment{
 
 
     private void loadApps() {
-//        new AsyncTask<Void, Void, Void>() {
-//
-//            @Override
-//            protected void onPostExecute(Void aVoid) {
-//                super.onPostExecute(aVoid);
-//                mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
-//                mIsLoadApps = true;
-//            }
-//
-//            @Override
-//            protected Void doInBackground(Void... voids) {
-//                long time = System.currentTimeMillis();
-//                mAppManager.loadInstalledApps();
-//                DLog.i("read apps cost " + (System.currentTimeMillis() - time));
-//                return null;
-//            }
-//        }.execute();
-
-        //mAppManager.loadInstalledApps();
         mAppManager.load();
         mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
         mIsLoadApps = true;
+    }
+
+    private void setViewHeight() {
+        TypedArray actionbarSizeTypedArray = getActivity().obtainStyledAttributes(new int[] {
+                android.R.attr.actionBarSize
+        });
+        float actionbarHeight = actionbarSizeTypedArray.getDimension(0, getActivity().getResources().getDimensionPixelSize(R.dimen.dial_header_height));
+        mTvNum.setHeight((int) actionbarHeight);
+
+        ViewGroup.LayoutParams footerLayoutParams = mRlFooter.getLayoutParams();
+        footerLayoutParams.height = (int) actionbarHeight;
+        mRlFooter.setLayoutParams(footerLayoutParams);
     }
 
     private void initView() {
