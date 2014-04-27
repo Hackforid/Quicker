@@ -13,7 +13,7 @@ import com.smilehacker.quicker.utils.DLog;
 public class PackageUpdateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        // TODO 应用更新逻辑
         String action = intent.getAction();
         String packageName = intent.getDataString();
 
