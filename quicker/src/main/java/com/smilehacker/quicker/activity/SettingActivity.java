@@ -42,12 +42,7 @@ public class SettingActivity extends PreferenceActivity {
     private void rebuildAppCache() {
         final ProgressDialog pd = ProgressDialog.show(this, null, getString(R.string.rebuild_cache_summary));
         new AsyncTask<Void, Void, Void>() {
-
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            }
-
+            
             @Override
             protected Void doInBackground(Void... voids) {
                 mAppManager.rebuild();
