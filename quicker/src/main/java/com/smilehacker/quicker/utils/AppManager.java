@@ -244,7 +244,14 @@ public class AppManager {
                 broadcastAppUpdated();
             }
         }
+    }
 
+    public void rebuild() {
+        AppInfo.deleteAll();
+        List<AppInfo> sysAppList = loadAppFromSys();
+        updateSysAppsWithStored(sysAppList, Collections.EMPTY_LIST);
+        refreshAppList(sysAppList);
+        broadcastAppUpdated();
     }
 
 }

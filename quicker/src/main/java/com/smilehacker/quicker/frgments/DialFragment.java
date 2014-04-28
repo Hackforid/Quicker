@@ -24,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.smilehacker.quicker.R;
+import com.smilehacker.quicker.activity.SettingActivity;
 import com.smilehacker.quicker.adapter.AppAdapter;
 import com.smilehacker.quicker.data.model.AppInfo;
 import com.smilehacker.quicker.data.model.event.AppEvent;
@@ -33,6 +34,7 @@ import com.smilehacker.quicker.utils.PackageHelper;
 import com.smilehacker.quicker.views.KeyView;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 import me.grantland.widget.AutofitTextView;
@@ -49,6 +51,7 @@ public class DialFragment extends Fragment{
     private TextView mTvNum;
     private RelativeLayout mRlBackspace;
     private RelativeLayout mRlDialer;
+    private RelativeLayout mRlSetting;
     private RelativeLayout mRlRoot;
     private View mStatusBar;
     private View mNavgationBar;
@@ -94,6 +97,7 @@ public class DialFragment extends Fragment{
         mTvNum = (AutofitTextView) view.findViewById(R.id.tv_num);
         mRlBackspace = (RelativeLayout) view.findViewById(R.id.rl_backspace);
         mRlDialer = (RelativeLayout) view.findViewById(R.id.rl_dialer);
+        mRlSetting = (RelativeLayout) view.findViewById(R.id.rl_setting);
         mRlRoot = (RelativeLayout) view.findViewById(R.id.rl_root);
         mStatusBar = view.findViewById(R.id.v_status_bar);
         mNavgationBar = view.findViewById(R.id.v_navigation);
@@ -249,6 +253,13 @@ public class DialFragment extends Fragment{
             }
         });
 
+        mRlSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

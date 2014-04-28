@@ -8,6 +8,7 @@ import com.google.gson.annotations.Expose;
 
 import se.emilsjolander.sprinkles.CursorList;
 import se.emilsjolander.sprinkles.Model;
+import se.emilsjolander.sprinkles.ModelList;
 import se.emilsjolander.sprinkles.Query;
 import se.emilsjolander.sprinkles.annotations.AutoIncrementPrimaryKey;
 import se.emilsjolander.sprinkles.annotations.Column;
@@ -71,5 +72,9 @@ public class AppInfo extends Model {
 
     public static AppInfo getAppByPackage(String packageName) {
         return Query.one(AppInfo.class, "SELECT * FROM app WHERE package_name = ?", packageName).get();
+    }
+
+    public static void deleteAll() {
+        ModelList.from(Query.all(AppInfo.class).get()).deleteAll();
     }
 }

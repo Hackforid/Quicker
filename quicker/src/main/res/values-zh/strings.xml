@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- setting -->
+    <string name="setting_title">设置</string>
+    <string name="setting_title_clearcache">清除缓存</string>
+    <string name="setting_summary_clearcache">如果检索功能出了问题 请尝试清除缓存</string>
+</resources>
