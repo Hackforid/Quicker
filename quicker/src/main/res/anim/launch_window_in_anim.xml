@@ -6,5 +6,4 @@
         android:fromAlpha="0"
         android:toAlpha="1"
         />
-    <translate android:fromXDelta="100%p" android:toXDelta="0" android:duration="@integer/activity_animation_duration"/>
 </set>

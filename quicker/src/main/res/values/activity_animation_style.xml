@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="launch_anim_style" parent="android:Animation.Activity" mce_bogus="1">
-        <item name="android:activityOpenEnterAnimation">@anim/launch_window_in_anim</item>
-        <item name="android:activityOpenExitAnimation">@anim/launch_window_out_anim</item>
-        <item name="android:activityCloseEnterAnimation">@anim/launch_window_in_anim</item>
-        <item name="android:activityCloseExitAnimation">@anim/launch_window_out_anim</item>
+    <style name="Animation.Activity.Translucent.Style" parent="@android:style/Animation.Translucent" >
+        <item name="android:windowEnterAnimation">@anim/launch_window_in_anim</item>
+        <item name="android:windowExitAnimation">@anim/launch_window_out_anim</item>
     </style>
 </resources>
