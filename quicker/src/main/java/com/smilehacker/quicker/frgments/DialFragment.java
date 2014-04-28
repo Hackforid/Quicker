@@ -285,7 +285,7 @@ public class DialFragment extends Fragment{
     }
 
     @SuppressWarnings("UnusedDeclaration")
-    public void onEvent(AppEvent appEvent) {
+    public void onEventMainThread(AppEvent appEvent) {
         DLog.i("get refresh apps");
         if (appEvent.type == AppEvent.AppEventType.REFRESH) {
             mAppAdapter.updateApps(appEvent.appInfos);

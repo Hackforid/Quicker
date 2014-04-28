@@ -1,5 +1,7 @@
 package com.smilehacker.quicker.activity;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -30,11 +32,34 @@ public class SettingActivity extends PreferenceActivity {
         mPrefClearCache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                mAppManager.rebuild();
+                rebuildAppCache();
                 return true;
             }
         });
 
+    }
+
+    private void rebuildAppCache() {
+        final ProgressDialog pd = ProgressDialog.show(this, null, getString(R.string.rebuild_cache_summary));
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                mAppManager.rebuild();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                pd.dismiss();
+            }
+        }.execute();
     }
 
 
