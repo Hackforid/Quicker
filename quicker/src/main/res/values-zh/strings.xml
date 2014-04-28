@@ -5,4 +5,9 @@
     <string name="setting_title">设置</string>
     <string name="setting_title_clearcache">清除缓存</string>
     <string name="setting_summary_clearcache">如果检索功能出了问题 请尝试清除缓存</string>
+    <string name="setting_title_background">后台运行</string>
+    <string name="setting_summary_background">以最轻量的方式留在后台 以增加启动速度</string>
+
+    <string name="rebuild_cache">重建缓存</string>
+    <string name="rebuild_cache_summary">重建缓存中...</string>
 </resources>

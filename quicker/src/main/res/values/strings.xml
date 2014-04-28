@@ -8,6 +8,9 @@
     <string name="setting_title_clearcache">Clear Cache</string>
     <string name="setting_summary_clearcache">Clear app index cache if there is something wrong</string>
     <string name="setting_key_clearcache">key_setting_clearcache</string>
+    <string name="setting_title_background">Run in background</string>
+    <string name="setting_summary_background">Keep me alive in background</string>
+    <string name="setting_key_background">key_background</string>
 
     <string name="rebuild_cache">Rebuilding</string>
     <string name="rebuild_cache_summary">Please wait...</string>

@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.smilehacker.quicker.R;
 import com.smilehacker.quicker.activity.SettingActivity;
 import com.smilehacker.quicker.adapter.AppAdapter;
+import com.smilehacker.quicker.data.SPManager;
 import com.smilehacker.quicker.data.model.AppInfo;
 import com.smilehacker.quicker.data.model.event.AppEvent;
 import com.smilehacker.quicker.utils.AppManager;
@@ -43,7 +44,6 @@ import me.grantland.widget.AutofitTextView;
  * Created by kleist on 14-4-1.
  */
 public class DialFragment extends Fragment{
-
 
     private GridLayout mGlKeyboard;
     private ListView mLvApps;
@@ -66,6 +66,7 @@ public class DialFragment extends Fragment{
     private AppAdapter mAppAdapter;
     private AppManager mAppManager;
     private EventBus mEventBus;
+    private SPManager mSPManager;
 
     private Boolean mIsKitKat = false;
 
@@ -74,6 +75,7 @@ public class DialFragment extends Fragment{
         super.onCreate(savedInstanceState);
         mAppAdapter = new AppAdapter(getActivity(), this, new ArrayList<AppInfo>());
         mAppManager = AppManager.getInstance(getActivity());
+        mSPManager = SPManager.getInstance(getActivity());
         mKeyBoradHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_height);
         mNumStr = "";
         mEventBus = EventBus.getDefault();
@@ -435,14 +437,12 @@ public class DialFragment extends Fragment{
     }
 
     public void openAppAndHideDialer(AppInfo appInfo) {
-
+        Boolean shouldBackground = mSPManager.getShouldBackground();
         PackageHelper packageHelper = new PackageHelper(getActivity());
-        mShouldRest = true;
 
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        getActivity().startActivity(intent);
+        if (shouldBackground) {
+            runInBackground();
+        }
 
         try {
             packageHelper.openApp(appInfo.packageName);
@@ -451,5 +451,17 @@ public class DialFragment extends Fragment{
         }
 
         mAppManager.increaseLaunchCount(appInfo);
+
+        if (!shouldBackground) {
+            getActivity().finish();
+        }
+    }
+
+    public void runInBackground() {
+        mShouldRest = true;
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        getActivity().startActivity(intent);
     }
 }

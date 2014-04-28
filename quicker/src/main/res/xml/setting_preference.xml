@@ -6,4 +6,10 @@
         android:title="@string/setting_title_clearcache"
         android:summary="@string/setting_summary_clearcache"
         />
+    <CheckBoxPreference
+        android:key="@string/setting_key_background"
+        android:title="@string/setting_title_background"
+        android:summary="@string/setting_summary_background"
+        android:defaultValue="true"
+        />
 </PreferenceScreen>
