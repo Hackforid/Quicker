@@ -1,32 +1,30 @@
 package com.smilehacker.quicker.activity;
 
 import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
+import android.view.MenuItem;
 
 import com.smilehacker.quicker.R;
+import com.smilehacker.quicker.plugin.GAPreferenceActivity;
 import com.smilehacker.quicker.utils.AppManager;
 
-public class SettingActivity extends PreferenceActivity {
+public class SettingActivity extends GAPreferenceActivity {
 
     private Preference mPrefClearCache;
 
     private AppManager mAppManager;
-    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Only need a simple preference, give up PreferenceFragment
         addPreferencesFromResource(R.xml.setting_preference);
 
         mAppManager = AppManager.getInstance(this);
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         initPreference();
     }
@@ -62,6 +60,12 @@ public class SettingActivity extends PreferenceActivity {
         }.execute();
     }
 
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

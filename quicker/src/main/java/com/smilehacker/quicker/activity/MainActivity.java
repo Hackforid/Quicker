@@ -1,18 +1,16 @@
 package com.smilehacker.quicker.activity;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.smilehacker.quicker.R;
 import com.smilehacker.quicker.data.SPManager;
 import com.smilehacker.quicker.frgments.DialFragment;
+import com.smilehacker.quicker.plugin.GAActivity;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends GAActivity {
 
     private SPManager mSPManager;
     private DialFragment mDialFragment;
@@ -44,5 +42,20 @@ public class MainActivity extends Activity {
 
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void openStrictMode() {
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads()
+                .detectDiskWrites()
+                .detectNetwork()   // or .detectAll() for all detectable problems
+                .penaltyLog()
+                .build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects()
+                .detectLeakedClosableObjects()
+                .penaltyLog()
+                .penaltyDeath()
+                .build());
     }
 }

@@ -3,6 +3,7 @@ package com.smilehacker.quicker.adapter;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.smilehacker.quicker.utils.PackageHelper;
 
 import java.util.Iterator;
 import java.util.List;
+
+import hugo.weaving.DebugLog;
 
 /**
  * Created by kleist on 14-4-2.
@@ -86,10 +89,10 @@ public class AppAdapter extends BaseAdapter {
         }
 
         final AppInfo appInfo = mAppInfos.get(i);
-        PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(appInfo.packageName);
+
         holder.tvAppName.setText(mAppInfos.get(i).appName);
         try {
-            holder.ivAppIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(mPackageManager));
+            holder.ivAppIcon.setImageDrawable(getIconByPackage(appInfo.packageName));
         } catch (Exception e) {
             DLog.d(e.toString());
         }
@@ -104,6 +107,11 @@ public class AppAdapter extends BaseAdapter {
 
 
         return view;
+    }
+
+    private Drawable getIconByPackage(String packageName) {
+        PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(packageName);
+        return packageInfo.applicationInfo.loadIcon(mPackageManager);
     }
 
     private static class ViewHolder {
