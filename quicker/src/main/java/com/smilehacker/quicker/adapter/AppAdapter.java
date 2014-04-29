@@ -16,12 +16,9 @@ import com.smilehacker.quicker.data.model.AppInfo;
 import com.smilehacker.quicker.frgments.DialFragment;
 import com.smilehacker.quicker.utils.DLog;
 import com.smilehacker.quicker.utils.PackageHelper;
-import com.squareup.picasso.Picasso;
 
 import java.util.Iterator;
 import java.util.List;
-
-import hugo.weaving.DebugLog;
 
 /**
  * Created by kleist on 14-4-2.

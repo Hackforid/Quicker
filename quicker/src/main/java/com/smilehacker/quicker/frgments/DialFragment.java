@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -183,6 +184,10 @@ public class DialFragment extends Fragment{
     }
 
     private int getNavigationBarHeight() {
+        if (ViewConfiguration.get(getActivity()).hasPermanentMenuKey()) {
+            return 0;
+        }
+
         Resources resources = getResources();
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {

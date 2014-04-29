@@ -201,14 +201,14 @@ public class AppManager {
         List<AppInfo> result = new ArrayList<AppInfo>();
         Date initData = new Date(0);
         for (AppInfo appInfo: mAppInfos) {
-            if (appInfo.updateDate.compareTo(initData) > 0) {
+            if (appInfo.launchDate.compareTo(initData) > 0) {
                 result.add(appInfo);
             }
         }
         Collections.sort(result, new Comparator<AppInfo>() {
             @Override
             public int compare(AppInfo appInfo, AppInfo appInfo2) {
-                return -appInfo.updateDate.compareTo(appInfo2.updateDate);
+                return -appInfo.launchDate.compareTo(appInfo2.launchDate);
             }
         });
         return result;
