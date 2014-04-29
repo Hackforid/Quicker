@@ -2,6 +2,7 @@ package com.smilehacker.quicker.utils;
 
 import com.smilehacker.quicker.data.model.AppInfo;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public class AppSearcher {
 
     public static List<AppInfo> search(List<AppInfo> appInfos, String inputNum) {
+        List<AppInfo> result = new ArrayList<AppInfo>();
         for (AppInfo appInfo: appInfos) {
             double priority = Double.MIN_VALUE;
             for (String num: appInfo.fullT9) {
@@ -28,10 +30,13 @@ public class AppSearcher {
             }
 
             appInfo.priority = priority;
+            if (appInfo.priority >= 1) {
+                result.add(appInfo);
+            }
         }
 
-        Collections.sort(appInfos, new SortByPriority());
-        return appInfos;
+        Collections.sort(result, new SortByPriority());
+        return result;
     }
 
     private static double computePriority(String inputNum, String appNum, Boolean isFullNum, long launchCount) {

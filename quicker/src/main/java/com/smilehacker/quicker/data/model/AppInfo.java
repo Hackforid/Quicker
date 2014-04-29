@@ -1,5 +1,7 @@
 package com.smilehacker.quicker.data.model;
 
+import android.graphics.drawable.Drawable;
+
 import java.util.Date;
 import java.util.List;
 
@@ -53,14 +55,16 @@ public class AppInfo extends Model {
     public long launchCount = 0;
 
     @Column("update_date")
-    public Date updateDate;
+
+    public Date updateDate = new Date(0);
 
     public double priority;
+
+    public Drawable icon;
 
     @Override
     protected void beforeSave() {
         super.beforeSave();
-        updateDate = new Date();
     }
 
     public static List<AppInfo> getInstalledApps() {
@@ -76,5 +80,11 @@ public class AppInfo extends Model {
 
     public static void deleteAll() {
         ModelList.from(Query.all(AppInfo.class).get()).deleteAll();
+    }
+
+    public void increaseLaunchCount() {
+        launchCount++;
+        updateDate = new Date();
+        save();
     }
 }

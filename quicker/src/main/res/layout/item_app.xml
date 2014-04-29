@@ -8,8 +8,8 @@
     >
     <ImageView
         android:id="@+id/iv_icon"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_centerVertical="true"
         />
 
@@ -18,8 +18,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/iv_icon"
-        android:layout_marginLeft="20sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="20dp"
+        android:layout_centerVertical="true"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         />

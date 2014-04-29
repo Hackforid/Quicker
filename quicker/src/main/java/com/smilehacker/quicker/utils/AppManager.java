@@ -14,6 +14,7 @@ import com.smilehacker.quicker.data.model.event.AppEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -193,19 +194,24 @@ public class AppManager {
     }
 
     public void increaseLaunchCount(AppInfo appInfo) {
-        appInfo.launchCount += 1;
-        appInfo.save();
+        appInfo.increaseLaunchCount();
     }
 
     public List<AppInfo> getRecentUpdateApps() {
-        List<AppInfo> appInfos = new ArrayList<AppInfo>(mAppInfos);
-        Collections.sort(appInfos, new Comparator<AppInfo>() {
+        List<AppInfo> result = new ArrayList<AppInfo>();
+        Date initData = new Date(0);
+        for (AppInfo appInfo: mAppInfos) {
+            if (appInfo.updateDate.compareTo(initData) > 0) {
+                result.add(appInfo);
+            }
+        }
+        Collections.sort(result, new Comparator<AppInfo>() {
             @Override
             public int compare(AppInfo appInfo, AppInfo appInfo2) {
                 return -appInfo.updateDate.compareTo(appInfo2.updateDate);
             }
         });
-        return appInfos;
+        return result;
     }
 
     public void addPackage(String packageName) {

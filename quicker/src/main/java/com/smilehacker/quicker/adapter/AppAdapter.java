@@ -16,6 +16,7 @@ import com.smilehacker.quicker.data.model.AppInfo;
 import com.smilehacker.quicker.frgments.DialFragment;
 import com.smilehacker.quicker.utils.DLog;
 import com.smilehacker.quicker.utils.PackageHelper;
+import com.squareup.picasso.Picasso;
 
 import java.util.Iterator;
 import java.util.List;
@@ -90,9 +91,9 @@ public class AppAdapter extends BaseAdapter {
 
         final AppInfo appInfo = mAppInfos.get(i);
 
-        holder.tvAppName.setText(mAppInfos.get(i).appName);
+        holder.tvAppName.setText(appInfo.appName);
         try {
-            holder.ivAppIcon.setImageDrawable(getIconByPackage(appInfo.packageName));
+            holder.ivAppIcon.setImageDrawable(getIcon(appInfo));
         } catch (Exception e) {
             DLog.d(e.toString());
         }
@@ -109,9 +110,17 @@ public class AppAdapter extends BaseAdapter {
         return view;
     }
 
-    private Drawable getIconByPackage(String packageName) {
-        PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(packageName);
+    private Drawable getIcon(AppInfo appInfo) {
+        PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(appInfo.packageName);
         return packageInfo.applicationInfo.loadIcon(mPackageManager);
+//        if (appInfo.icon == null) {
+//            PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(appInfo.packageName);
+//            appInfo.icon = packageInfo.applicationInfo.loadIcon(mPackageManager);
+//        } else {
+//            return appInfo.icon;
+//        }
+//
+//        return appInfo.icon;
     }
 
     private static class ViewHolder {
