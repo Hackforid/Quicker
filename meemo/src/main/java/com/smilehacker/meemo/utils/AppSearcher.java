@@ -30,7 +30,7 @@ public class AppSearcher {
             }
 
             appInfo.priority = priority;
-            if (appInfo.priority >= 1) {
+            if (appInfo.priority >= 0.1) {
                 result.add(appInfo);
             }
         }
@@ -51,7 +51,7 @@ public class AppSearcher {
         int inputNumLength = inputNum.length();
 
         //priority = inputNumLength / appNumLength * matchPos + (isFullNum ? 0 : 1) * 3;
-        priority = (appNumLength - matchPos + launchCount * 1.5) / (appNumLength - inputNumLength + 1) * (isFullNum ? 1 : 1.2);
+        priority = (appNumLength - matchPos + launchCount * 1.5) / (appNumLength - inputNumLength + 1) * (isFullNum ? 1 : 1.5);
 
 
         return priority;
