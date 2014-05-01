@@ -54,7 +54,7 @@ public class AppInfo extends Model {
     @Column("launch_count")
     public long launchCount = 0;
 
-    @Column("update_date")
+    @Column("launch_date")
     public Date launchDate = new Date(0);
 
     public double priority;
