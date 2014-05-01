@@ -2,7 +2,8 @@ package com.smilehacker.quicker.app;
 
 import android.app.Application;
 
-import com.smilehacker.quicker.data.model.*;
+import com.smilehacker.quicker.data.model.AppInfo;
+import com.smilehacker.quicker.data.model.StringArraySerializer;
 
 import se.emilsjolander.sprinkles.Migration;
 import se.emilsjolander.sprinkles.Sprinkles;

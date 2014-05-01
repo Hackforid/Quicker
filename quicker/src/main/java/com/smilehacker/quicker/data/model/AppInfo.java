@@ -2,11 +2,11 @@ package com.smilehacker.quicker.data.model;
 
 import android.graphics.drawable.Drawable;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.List;
-
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.annotations.Expose;
 
 import se.emilsjolander.sprinkles.CursorList;
 import se.emilsjolander.sprinkles.Model;

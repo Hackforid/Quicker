@@ -36,7 +36,6 @@ import com.smilehacker.quicker.utils.PackageHelper;
 import com.smilehacker.quicker.views.KeyView;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import de.greenrobot.event.EventBus;
 import me.grantland.widget.AutofitTextView;
@@ -82,6 +81,7 @@ public class DialFragment extends Fragment{
         mEventBus = EventBus.getDefault();
         mEventBus.register(this);
         loadApps();
+
     }
 
     @Override
@@ -109,6 +109,7 @@ public class DialFragment extends Fragment{
         setViewHeight();
         initKeyboard();
         initView();
+
 
         return view;
     }
