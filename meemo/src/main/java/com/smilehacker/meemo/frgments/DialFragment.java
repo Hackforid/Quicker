@@ -30,6 +30,7 @@ import com.smilehacker.meemo.adapter.AppAdapter;
 import com.smilehacker.meemo.data.SPManager;
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.event.AppEvent;
+import com.smilehacker.meemo.service.FloatViewService;
 import com.smilehacker.meemo.utils.AppManager;
 import com.smilehacker.meemo.utils.DLog;
 import com.smilehacker.meemo.utils.PackageHelper;
@@ -121,10 +122,16 @@ public class DialFragment extends Fragment{
         mGlKeyboard.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                mGlKeyboard.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    mGlKeyboard.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                } else {
+                    mGlKeyboard.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
                 mKeyboardTop = mGlKeyboard.getTop();
             }
         });
+
+        showFlowView();
     }
 
 
@@ -469,5 +476,12 @@ public class DialFragment extends Fragment{
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         getActivity().startActivity(intent);
+    }
+
+    private void showFlowView() {
+        if (mSPManager.getShouldShowFlowView()) {
+            Intent intent = new Intent(getActivity().getApplicationContext(), FloatViewService.class);
+            getActivity().startService(intent);
+        }
     }
 }

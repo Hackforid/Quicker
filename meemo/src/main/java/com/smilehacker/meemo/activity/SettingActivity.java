@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.app.Constants;
 import com.smilehacker.meemo.plugin.GAPreferenceActivity;
+import com.smilehacker.meemo.service.FloatViewService;
 import com.smilehacker.meemo.utils.AppManager;
 import com.smilehacker.meemo.utils.PackageHelper;
 
@@ -28,6 +30,7 @@ public class SettingActivity extends GAPreferenceActivity {
     private Preference mPrefAuthor;
     private Preference mPrefUpdate;
     private Preference mPrefFeedback;
+    private CheckBoxPreference mPrefFloatView;
 
 
     private AppManager mAppManager;
@@ -52,6 +55,7 @@ public class SettingActivity extends GAPreferenceActivity {
         mPrefAuthor = findPreference(getString(R.string.setting_key_author));
         mPrefUpdate = findPreference(getString(R.string.setting_key_update));
         mPrefFeedback = findPreference(getString(R.string.setting_key_feedback));
+        mPrefFloatView = (CheckBoxPreference) findPreference(getString(R.string.setting_key_floatview));
 
         mPrefClearCache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -75,6 +79,22 @@ public class SettingActivity extends GAPreferenceActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 sendFeedbackMail();
+                return true;
+            }
+        });
+
+        mPrefFloatView.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object o) {
+                Boolean shouldShowFloatview = (Boolean) o;
+                if (shouldShowFloatview) {
+                    Intent intent = new Intent(getApplicationContext(), FloatViewService.class);
+                    startService(intent);
+                } else {
+                    Intent intent = new Intent(getApplicationContext(), FloatViewService.class);
+                    stopService(intent);
+                }
+
                 return true;
             }
         });

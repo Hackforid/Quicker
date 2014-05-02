@@ -9,6 +9,8 @@
     <string name="setting_summary_background">以最轻量的方式留在后台 以增加启动速度</string>
     <string name="setting_title_feedback">反馈</string>
     <string name="setting_summary_feedback">发送您的建议或您发现的Bug</string>
+    <string name="setting_title_floatview">浮动窗口</string>
+    <string name="setting_summary_floatview">显示浮动窗口 方便您更快捷的启动Meemo</string>
 
     <string name="setting_title_about">关于 Meemo</string>
     <string name="setting_title_verison">版本 %1$s</string>
