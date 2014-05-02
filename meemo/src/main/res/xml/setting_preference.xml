@@ -12,4 +12,24 @@
         android:summary="@string/setting_summary_background"
         android:defaultValue="true"
         />
+    <PreferenceScreen
+        android:key="@string/setting_key_about"
+        android:title="@string/setting_title_about"
+        >
+        <Preference
+            android:key="@string/setting_key_version"
+            android:title="@string/setting_title_verison"
+            android:summary="@string/setting_summary_version"
+            />
+        <Preference
+            android:key="@string/setting_key_author"
+            android:title="@string/setting_title_author"
+            android:summary="@string/setting_summary_author"
+            />
+        <Preference
+            android:key="@string/setting_key_update"
+            android:title="@string/setting_title_update"
+            android:summary="@string/setting_summary_update"
+            />
+    </PreferenceScreen>
 </PreferenceScreen>

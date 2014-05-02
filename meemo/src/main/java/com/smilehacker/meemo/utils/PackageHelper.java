@@ -62,4 +62,14 @@ public class PackageHelper {
             mContext.startActivity(intent);
         }
     }
+
+    public String getVersionName() {
+        try {
+            PackageInfo packageInfo = mPackageManager.getPackageInfo(mContext.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            DLog.d(e.toString());
+            return "";
+        }
+    }
 }

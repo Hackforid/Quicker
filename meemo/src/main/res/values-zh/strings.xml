@@ -8,6 +8,18 @@
     <string name="setting_title_background">后台运行</string>
     <string name="setting_summary_background">以最轻量的方式留在后台 以增加启动速度</string>
 
+    <string name="setting_title_about">关于 Meemo</string>
+    <string name="setting_key_about">key_setting_about</string>
+    <string name="setting_title_verison">版本 %1$s</string>
+    <string name="setting_summary_version">在应用市场中评分以给予一些支持</string>
+    <string name="setting_key_version">key_setting_version</string>
+    <string name="setting_title_author">肆然</string>
+    <string name="setting_summary_author">作者的微博</string>
+    <string name="setting_key_author">key_setting_author</string>
+    <string name="setting_title_update">升级</string>
+    <string name="setting_summary_update">在市场中检查是否有新的版本</string>
+    <string name="setting_key_update">key_setting_update</string>
+
     <string name="rebuild_cache">重建缓存</string>
     <string name="rebuild_cache_summary">重建缓存中...</string>
 </resources>
