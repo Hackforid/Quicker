@@ -7,7 +7,19 @@
     <string name="setting_summary_clearcache">如果检索功能出了问题 请尝试清除缓存</string>
     <string name="setting_title_background">后台运行</string>
     <string name="setting_summary_background">以最轻量的方式留在后台 以增加启动速度</string>
+    <string name="setting_title_feedback">反馈</string>
+    <string name="setting_summary_feedback">发送您的建议或您发现的Bug</string>
+
+    <string name="setting_title_about">关于 Meemo</string>
+    <string name="setting_title_verison">版本 %1$s</string>
+    <string name="setting_summary_version">在应用市场中评分以给予一些支持</string>
+    <string name="setting_title_author">肆然</string>
+    <string name="setting_summary_author">作者的微博</string>
+    <string name="setting_title_update">升级</string>
+    <string name="setting_summary_update">在市场中检查是否有新的版本</string>
 
     <string name="rebuild_cache">重建缓存</string>
     <string name="rebuild_cache_summary">重建缓存中...</string>
+    <string name="feedback_mail_title">Feedback of Meemo</string>
+    <string name="send_mail">发送邮件</string>
 </resources>

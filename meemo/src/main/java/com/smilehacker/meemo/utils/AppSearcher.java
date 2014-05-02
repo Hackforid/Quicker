@@ -1,7 +1,5 @@
 package com.smilehacker.meemo.utils;
 
-import android.util.Log;
-
 import com.smilehacker.meemo.data.model.AppInfo;
 
 import java.util.ArrayList;
