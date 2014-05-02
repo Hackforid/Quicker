@@ -37,7 +37,6 @@ public class SettingActivity extends GAPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
-
         // Only need a simple preference, give up PreferenceFragment
         addPreferencesFromResource(R.xml.setting_preference);
 
@@ -92,6 +91,7 @@ public class SettingActivity extends GAPreferenceActivity {
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.feedback_mail_title));
         startActivity(intent);
     }
+
 
     private void rebuildAppCache() {
         final ProgressDialog pd = ProgressDialog.show(this, null, getString(R.string.rebuild_cache_summary));
