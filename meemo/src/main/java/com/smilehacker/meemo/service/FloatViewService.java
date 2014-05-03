@@ -144,7 +144,7 @@ public class FloatViewService extends Service {
 
     private void animateToEdge() {
         int posX = mWmParams.x;
-        int moveDistance = mLayout.getMeasuredWidth() * 2 / 3;
+        int moveDistance = mLayout.getMeasuredWidth() * 3 / 5;
         int edgeX = (mDeviceInfo.screenWidth - posX) > mDeviceInfo.screenWidth / 2 ? 0 : mDeviceInfo.screenWidth;
         mWmParams.x = edgeX;
         updateView();
@@ -152,8 +152,6 @@ public class FloatViewService extends Service {
         int distance = edgeX == 0 ? -moveDistance : moveDistance;
         mImageView.animate().translationX(distance).start();
         mSPManager.setFloatViewPos(mWmParams.x, mWmParams.y);
-
-        DLog.i("posx=" + posX + " edgex=" + edgeX + " distance=" + distance);
     }
 
     private void updateView() {
