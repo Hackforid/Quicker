@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Meemo</string>
+    <string name="app_name" translatable="false">Meemo</string>
 
     <!-- setting -->
     <string name="setting_title">Setting</string>
     <string name="setting_title_clearcache">Clear Cache</string>
     <string name="setting_summary_clearcache">Clear app index cache if there is something wrong.</string>
-    <string name="setting_key_clearcache">key_setting_clearcache</string>
+    <string name="setting_key_clearcache" translatable="false">key_setting_clearcache</string>
     <string name="setting_title_background">Run in background</string>
     <string name="setting_summary_background">Keep me alive in background.</string>
-    <string name="setting_key_background">key_setting_background</string>
+    <string name="setting_key_background" translatable="false">>key_setting_background</string>
     <string name="setting_title_feedback">Feedback</string>
     <string name="setting_summary_feedback">Send me your advice or bug report.</string>
-    <string name="setting_key_feedback">key_setting_feedback</string>
+    <string name="setting_key_feedback" translatable="false">>key_setting_feedback</string>
     <string name="setting_title_floatview">FloatView</string>
     <string name="setting_summary_floatview">Display a float view in screen to launch Meemo quickly.</string>
-    <string name="setting_key_floatview">key_setting_floatview</string>
+    <string name="setting_key_floatview" translatable="false">>key_setting_floatview</string>
 
     <string name="setting_title_about">About Meemo</string>
-    <string name="setting_key_about">key_setting_about</string>
+    <string name="setting_key_about" translatable="false">>key_setting_about</string>
     <string name="setting_title_verison">Version %1$s</string>
     <string name="setting_summary_version">Rate this app.</string>
-    <string name="setting_key_version">key_setting_version</string>
+    <string name="setting_key_version" translatable="false">>key_setting_version</string>
     <string name="setting_title_author">Sai</string>
     <string name="setting_summary_author">Visit my Weibo.</string>
-    <string name="setting_key_author">key_setting_author</string>
+    <string name="setting_key_author" translatable="false">>key_setting_author</string>
     <string name="setting_title_update">Update</string>
     <string name="setting_summary_update">Check new version in your App Store.</string>
-    <string name="setting_key_update">key_setting_update</string>
+    <string name="setting_key_update" translatable="false">>key_setting_update</string>
 
     <string name="rebuild_cache">Rebuilding</string>
     <string name="rebuild_cache_summary">Please wait...</string>
