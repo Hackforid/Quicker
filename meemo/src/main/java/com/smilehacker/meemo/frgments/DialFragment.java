@@ -10,8 +10,10 @@ import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -207,45 +209,7 @@ public class DialFragment extends Fragment{
     private void initView() {
         mLvApps.setAdapter(mAppAdapter);
 
-        mRlBackspace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (!mIsLoadApps) {
-                    return;
-                }
-
-                if (TextUtils.isEmpty(mNumStr)) {
-                    return;
-                } else {
-                    mNumStr = mNumStr.substring(0, mNumStr.length() - 1);
-                    mTvNum.setText(mNumStr);
-                    if (TextUtils.isEmpty(mNumStr)) {
-                        showInputBox(false);
-                    } else {
-                        searchAppByNum();
-                    }
-                }
-            }
-        });
-
-        mRlBackspace.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (!mIsLoadApps) {
-                    return false;
-                }
-
-                if (TextUtils.isEmpty(mNumStr)) {
-                    return false;
-                } else {
-                    mNumStr = "";
-                    mTvNum.setText(mNumStr);
-                    showInputBox(false);
-                    return true;
-                }
-            }
-        });
+        setBackspace();
 
         mLvApps.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -277,6 +241,70 @@ public class DialFragment extends Fragment{
         });
     }
 
+    private Boolean deleteAllInputNum() {
+        if (!mIsLoadApps) {
+            return false;
+        }
+
+        if (TextUtils.isEmpty(mNumStr)) {
+            return false;
+        } else {
+            mNumStr = "";
+            mTvNum.setText(mNumStr);
+            showInputBox(false);
+            return true;
+        }
+    }
+
+    private void setBackspace() {
+        final GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+            private static final int FLING_MIN_DISTANCE = 50;
+            private static final int FLING_MIN_VELOCITY = 0;
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
+                    return deleteAllInputNum();
+                }
+                return super.onFling(e1, e2, velocityX, velocityY);
+            }
+        });
+
+        mRlBackspace.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+        
+        mRlBackspace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (!mIsLoadApps) {
+                    return;
+                }
+
+                if (TextUtils.isEmpty(mNumStr)) {
+                    return;
+                } else {
+                    mNumStr = mNumStr.substring(0, mNumStr.length() - 1);
+                    mTvNum.setText(mNumStr);
+                    if (TextUtils.isEmpty(mNumStr)) {
+                        showInputBox(false);
+                    } else {
+                        searchAppByNum();
+                    }
+                }
+            }
+        });
+
+        mRlBackspace.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                return deleteAllInputNum();
+            }
+        });
+    }
 
     private void initKeyboard() {
 
