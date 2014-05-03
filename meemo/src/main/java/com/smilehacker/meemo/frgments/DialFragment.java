@@ -472,10 +472,7 @@ public class DialFragment extends Fragment{
 
     public void runInBackground() {
         mShouldRest = true;
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        getActivity().startActivity(intent);
+        getActivity().moveTaskToBack(false);
     }
 
     private void showFlowView() {

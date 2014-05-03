@@ -39,8 +39,6 @@ public class MainActivity extends GAActivity {
             }
         }
 
-
-
         return super.onKeyDown(keyCode, event);
     }
 
