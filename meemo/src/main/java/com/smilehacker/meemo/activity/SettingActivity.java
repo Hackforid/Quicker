@@ -98,6 +98,30 @@ public class SettingActivity extends GAPreferenceActivity {
                 return true;
             }
         });
+
+        mPrefVersion.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                Uri uri = Uri.parse(new StringBuilder().append("market://details?id=").append(SettingActivity.this.getPackageName()).toString());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        mPrefUpdate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+
+                Uri uri = Uri.parse(new StringBuilder().append("market://details?id=").append(SettingActivity.this.getPackageName()).toString());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
     private void visitAuthorWeibo() {
