@@ -19,11 +19,12 @@ public class DeviceInfo {
         getScreenInfo();
     }
 
-    private void getScreenInfo() {
+    public void getScreenInfo() {
         DisplayMetrics dm = this.context.getResources().getDisplayMetrics();
         this.screenHeight = dm.heightPixels;
         this.screenWidth = dm.widthPixels;
         this.density = dm.density;
         this.dpi = dm.densityDpi;
     }
+
 }

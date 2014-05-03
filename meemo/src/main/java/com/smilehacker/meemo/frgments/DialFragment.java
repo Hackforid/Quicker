@@ -275,7 +275,7 @@ public class DialFragment extends Fragment{
                 return gestureDetector.onTouchEvent(event);
             }
         });
-        
+
         mRlBackspace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

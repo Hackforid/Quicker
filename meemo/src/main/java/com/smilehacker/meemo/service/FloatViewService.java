@@ -1,7 +1,10 @@
 package com.smilehacker.meemo.service;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
@@ -35,6 +38,8 @@ public class FloatViewService extends Service {
     private int mTouchDownY;
     private Boolean mIsMove;
 
+    private ScreenOrientationChangeBroadcastReceiver mReceiver;
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -49,6 +54,11 @@ public class FloatViewService extends Service {
         mDeviceInfo = new DeviceInfo(this);
         mSPManager = SPManager.getInstance(this);
         createFloatView();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
+        mReceiver = new ScreenOrientationChangeBroadcastReceiver();
+        registerReceiver(mReceiver, intentFilter);
     }
 
 
@@ -56,6 +66,7 @@ public class FloatViewService extends Service {
     public void onDestroy() {
         super.onDestroy();
         removeView();
+        unregisterReceiver(mReceiver);
     }
 
     private void createFloatView() {
@@ -66,8 +77,13 @@ public class FloatViewService extends Service {
         mWmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         mWmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         mWmParams.gravity = Gravity.LEFT | Gravity.TOP;
+
+
         mWmParams.x = mSPManager.getFloatViewPosX();
         mWmParams.y = mSPManager.getFloatViewPosY();
+        mWmParams.x = mWmParams.x > mDeviceInfo.screenWidth ? mDeviceInfo.screenWidth : mWmParams.x;
+        mWmParams.y = mWmParams.y > mDeviceInfo.screenHeight ? mDeviceInfo.screenHeight : mWmParams.y;
+
 
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         mLayout = (LinearLayout) inflater.inflate(R.layout.view_flow, null);
@@ -167,5 +183,14 @@ public class FloatViewService extends Service {
         }
 
         return statusBarHeight;
+    }
+
+    private class ScreenOrientationChangeBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mDeviceInfo.getScreenInfo();
+            animateToEdge();
+        }
     }
 }
