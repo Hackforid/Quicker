@@ -144,7 +144,7 @@ public class FloatViewService extends Service {
 
     private void animateToEdge() {
         int posX = mWmParams.x;
-        int moveDistance = mLayout.getMeasuredWidth() * 3 / 5;
+        int moveDistance = mLayout.getMeasuredWidth() * 2 / 3;
         int edgeX = (mDeviceInfo.screenWidth - posX) > mDeviceInfo.screenWidth / 2 ? 0 : mDeviceInfo.screenWidth;
         mWmParams.x = edgeX;
         updateView();

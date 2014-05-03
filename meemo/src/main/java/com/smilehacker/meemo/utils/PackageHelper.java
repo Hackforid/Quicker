@@ -38,7 +38,7 @@ public class PackageHelper {
         try {
             pi = mPackageManager.getPackageInfo(packageName, 0);
         } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            DLog.d(e.toString());
             return;
         }
 
@@ -59,7 +59,7 @@ public class PackageHelper {
             ComponentName cn = new ComponentName(aPackageName, className);
 
             intent.setComponent(cn);
-            mContext.startActivity(intent);
+            mContext.getApplicationContext().startActivity(intent);
         }
     }
 
