@@ -144,7 +144,9 @@ public class AppT9Parser {
     }
 
     private void joinNextNum(List<String> nums, List<String[]> words, StringBuilder numBuilder, int pos) {
-
+        if (words.size() <= pos) {
+            return;
+        }
         for (int i = 0, max = words.get(pos).length; i < max; i++) {
             StringBuilder builder = new StringBuilder(numBuilder);
             builder.append(words.get(pos)[i]);

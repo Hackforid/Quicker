@@ -500,7 +500,9 @@ public class DialFragment extends Fragment{
 
     public void runInBackground() {
         mShouldRest = true;
-        getActivity().moveTaskToBack(false);
+        if (getActivity() != null) {
+            getActivity().moveTaskToBack(false);
+        }
     }
 
     private void showFlowView() {
