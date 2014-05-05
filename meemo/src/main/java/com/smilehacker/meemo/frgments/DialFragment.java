@@ -263,7 +263,7 @@ public class DialFragment extends Fragment{
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 if (e1.getX() - e2.getX() > FLING_MIN_DISTANCE && Math.abs(velocityX) > FLING_MIN_VELOCITY) {
-                    return deleteAllInputNum();
+                    deleteAllInputNum();
                 }
                 return super.onFling(e1, e2, velocityX, velocityY);
             }
@@ -303,6 +303,28 @@ public class DialFragment extends Fragment{
             public boolean onLongClick(View view) {
                 return deleteAllInputNum();
             }
+
+        });
+    }
+
+    private void setKeyboardGesture(View view) {
+        final GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
+            private static final int FLING_MIN_DISTANCE = 50;
+            private static final int FLING_MIN_VELOCITY = 0;
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (e2.getY() - e1.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
+                    showKeyboard(mIsKeyboardHide);
+                }
+                return super.onFling(e1, e2, velocityX, velocityY);
+            }
+        });
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
         });
     }
 
@@ -323,6 +345,7 @@ public class DialFragment extends Fragment{
             keyView.setLayoutParams(param);
 
             mGlKeyboard.addView(keyView);
+            setKeyboardGesture(keyView);
             keyView.setOnClickListener(new KeyboradOnClickListener(i + 1));
         }
     }
@@ -335,8 +358,8 @@ public class DialFragment extends Fragment{
         }
     }
 
-    private void showKeyboard(Boolean isShow) {
-        if (isShow && mIsKeyboardHide) {
+    private void showKeyboard(Boolean toShow) {
+        if (toShow && mIsKeyboardHide) {
             ValueAnimator va = ValueAnimator.ofInt(0, mKeyBoradHeight);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -374,7 +397,7 @@ public class DialFragment extends Fragment{
             });
             va.setDuration(300);
             va.start();
-        } else if (!isShow && !mIsKeyboardHide) {
+        } else if (!toShow && !mIsKeyboardHide) {
             ValueAnimator va = ValueAnimator.ofInt(0, mKeyBoradHeight);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
