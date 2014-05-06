@@ -30,18 +30,6 @@ public class MainActivity extends GAActivity {
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (mSPManager.getShouldBackground()) {
-                mDialFragment.runInBackground();
-                return true;
-            }
-        }
-
-        return super.onKeyDown(keyCode, event);
-    }
-
     private void openStrictMode() {
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads()

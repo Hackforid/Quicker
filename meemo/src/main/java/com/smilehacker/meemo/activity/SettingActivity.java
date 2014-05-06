@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.app.Constants;
 import com.smilehacker.meemo.plugin.GAPreferenceActivity;
-import com.smilehacker.meemo.service.FloatViewService;
+import com.smilehacker.meemo.service.MainService;
 import com.smilehacker.meemo.utils.AppManager;
 import com.smilehacker.meemo.utils.PackageHelper;
 
@@ -88,11 +88,13 @@ public class SettingActivity extends GAPreferenceActivity {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 Boolean shouldShowFloatview = (Boolean) o;
                 if (shouldShowFloatview) {
-                    Intent intent = new Intent(getApplicationContext(), FloatViewService.class);
+                    Intent intent = new Intent(getApplicationContext(), MainService.class);
+                    intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
                     startService(intent);
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), FloatViewService.class);
-                    stopService(intent);
+                    Intent intent = new Intent(getApplicationContext(), MainService.class);
+                    intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_REMOVE_FLOAT_VIEW);
+                    startService(intent);
                 }
 
                 return true;

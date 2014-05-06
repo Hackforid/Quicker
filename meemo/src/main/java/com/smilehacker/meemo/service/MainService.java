@@ -21,9 +21,12 @@ import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.activity.MainActivity;
 import com.smilehacker.meemo.app.DeviceInfo;
 import com.smilehacker.meemo.data.SPManager;
-import com.smilehacker.meemo.utils.DLog;
 
-public class FloatViewService extends Service {
+public class MainService extends Service {
+
+    public final static String KEY_COMMAND = "key_command";
+    public final static String COMMAND_SHOW_FLOAT_VIEW = "command_show_float_view";
+    public final static String COMMAND_REMOVE_FLOAT_VIEW = "command_remove_float_view";
 
     private DeviceInfo mDeviceInfo;
     private SPManager mSPManager;
@@ -37,6 +40,7 @@ public class FloatViewService extends Service {
     private int mTouchDownX;
     private int mTouchDownY;
     private Boolean mIsMove;
+    private Boolean mIsFloatViewShow = false;
 
     private ScreenOrientationChangeBroadcastReceiver mReceiver;
 
@@ -49,27 +53,40 @@ public class FloatViewService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mStatusBarHeight = getStatusBarHeight();
-        mWindowManager = (WindowManager) getApplication().getSystemService(getApplication().WINDOW_SERVICE);
-        mDeviceInfo = new DeviceInfo(this);
         mSPManager = SPManager.getInstance(this);
-        createFloatView();
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
-        mReceiver = new ScreenOrientationChangeBroadcastReceiver();
-        registerReceiver(mReceiver, intentFilter);
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        String command = intent.getStringExtra(KEY_COMMAND);
+        if (command == null) {
+
+        } else if (command.equals(COMMAND_SHOW_FLOAT_VIEW)) {
+            showFloatView();
+        } else if (command.equals(COMMAND_REMOVE_FLOAT_VIEW)) {
+            removeFloatView();
+        }
+
+        return super.onStartCommand(intent, flags, startId);
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        removeView();
-        unregisterReceiver(mReceiver);
+        removeFloatView();
+    }
+
+    private void showFloatView() {
+        if (mSPManager.getShouldShowFlowView() && !mIsFloatViewShow) {
+            createFloatView();
+        }
     }
 
     private void createFloatView() {
+        mStatusBarHeight = getStatusBarHeight();
+        mWindowManager = (WindowManager) getApplication().getSystemService(getApplication().WINDOW_SERVICE);
+        mDeviceInfo = new DeviceInfo(this);
+
         mWmParams = new WindowManager.LayoutParams();
         mWmParams.type = WindowManager.LayoutParams.TYPE_PHONE;
         mWmParams.format = PixelFormat.RGBA_8888;
@@ -88,18 +105,35 @@ public class FloatViewService extends Service {
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         mLayout = (LinearLayout) inflater.inflate(R.layout.view_flow, null);
         mWindowManager.addView(mLayout, mWmParams);
+        mIsFloatViewShow = true;
         mImageView = (ImageView) mLayout.findViewById(R.id.iv_flow);
 
         configureFloatView();
+        listenScreenOrientationChange(true);
     }
 
-    private void removeView() {
-        if (mLayout != null) {
-            mWindowManager.removeView(mLayout);
+    private void listenScreenOrientationChange(Boolean willListen) {
+        if (willListen) {
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
+            mReceiver = new ScreenOrientationChangeBroadcastReceiver();
+            registerReceiver(mReceiver, intentFilter);
+
+        } else {
+            if (mReceiver != null) {
+                unregisterReceiver(mReceiver);
+            }
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
+    private void removeFloatView() {
+        if (mLayout != null) {
+            mWindowManager.removeView(mLayout);
+        }
+        listenScreenOrientationChange(false);
+        mIsFloatViewShow = false;
+    }
+
     private void configureFloatView() {
         mImageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -139,7 +173,7 @@ public class FloatViewService extends Service {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FloatViewService.this, MainActivity.class);
+                Intent intent = new Intent(MainService.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }

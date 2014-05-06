@@ -32,7 +32,7 @@ import com.smilehacker.meemo.adapter.AppAdapter;
 import com.smilehacker.meemo.data.SPManager;
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.event.AppEvent;
-import com.smilehacker.meemo.service.FloatViewService;
+import com.smilehacker.meemo.service.MainService;
 import com.smilehacker.meemo.utils.AppManager;
 import com.smilehacker.meemo.utils.DLog;
 import com.smilehacker.meemo.utils.PackageHelper;
@@ -64,7 +64,6 @@ public class DialFragment extends Fragment{
     private int mKeyBoradHeight;
     private int mKeyboardTop;
     private Boolean mIsLoadApps = false;
-    private Boolean mShouldRest = false;
 
     private AppAdapter mAppAdapter;
     private AppManager mAppManager;
@@ -81,10 +80,11 @@ public class DialFragment extends Fragment{
         mSPManager = SPManager.getInstance(getActivity());
         mKeyBoradHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_height);
         mNumStr = "";
+
         mEventBus = EventBus.getDefault();
         mEventBus.register(this);
-        loadApps();
 
+        startMainService();
     }
 
     @Override
@@ -132,13 +132,11 @@ public class DialFragment extends Fragment{
                 mKeyboardTop = mGlKeyboard.getTop();
             }
         });
-
-        showFlowView();
+        loadApps();
     }
 
 
     private void loadApps() {
-        mAppManager.load();
         mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
         mIsLoadApps = true;
     }
@@ -483,30 +481,9 @@ public class DialFragment extends Fragment{
         mLvApps.setStackFromBottom(false);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mShouldRest) {
-            mShouldRest = false;
-            restDialer();
-        }
-    }
-
-    private void restDialer() {
-        mAppAdapter.refreshApps(mAppManager.getRecentUpdateApps());
-        mNumStr = "";
-        mTvNum.setText("");
-        showInputBox(false);
-        showKeyboard(true);
-    }
-
     public void openAppAndHideDialer(AppInfo appInfo) {
-        Boolean shouldBackground = mSPManager.getShouldBackground();
         PackageHelper packageHelper = new PackageHelper(getActivity());
 
-        if (shouldBackground) {
-            runInBackground();
-        }
 
         try {
             packageHelper.openApp(appInfo.packageName);
@@ -516,22 +493,15 @@ public class DialFragment extends Fragment{
 
         mAppManager.increaseLaunchCount(appInfo);
 
-        if (!shouldBackground) {
-            getActivity().finish();
-        }
+        getActivity().finish();
     }
 
-    public void runInBackground() {
-        mShouldRest = true;
-        if (getActivity() != null) {
-            getActivity().moveTaskToBack(false);
-        }
-    }
 
-    private void showFlowView() {
+    private void startMainService() {
+        Intent intent = new Intent(getActivity().getApplicationContext(), MainService.class);
         if (mSPManager.getShouldShowFlowView()) {
-            Intent intent = new Intent(getActivity().getApplicationContext(), FloatViewService.class);
-            getActivity().startService(intent);
+            intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
         }
+        getActivity().startService(intent);
     }
 }

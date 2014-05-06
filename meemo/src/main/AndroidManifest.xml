@@ -38,7 +38,7 @@
         </activity>
 
         <service
-            android:name=".service.FloatViewService"
+            android:name=".service.MainService"
             android:enabled="true"
             android:exported="true" >
         </service>

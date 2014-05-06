@@ -30,9 +30,7 @@ public class AppManager {
     private Context mContext;
     private List<AppInfo> mAppInfos;
     private PackageManager mPackageManager;
-    private SPManager mSPManager;
     private AppT9Parser mParser;
-    private Gson mGson;
     private EventBus mEventBus;
 
     private static AppManager mInstance;
@@ -54,10 +52,10 @@ public class AppManager {
         mContext = context;
         mAppInfos = new ArrayList<AppInfo>();
         mPackageManager = context.getPackageManager();
-        mSPManager = SPManager.getInstance(context);
         mParser = new AppT9Parser();
-        mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         mEventBus = EventBus.getDefault();
+
+        loadFromDBAndAsyncSysApps();
     }
 
     /**
@@ -66,7 +64,7 @@ public class AppManager {
      * then compare with sys in async
      */
     @DebugLog
-    public List<AppInfo> load() {
+    public void loadFromDBAndAsyncSysApps() {
         final List<AppInfo> appList = loadAppFromDB();
         refreshAppList(appList);
 
@@ -82,12 +80,11 @@ public class AppManager {
                 super.onPostExecute(appInfos);
                 updateSysAppsWithStored(appInfos, appList);
                 refreshAppList(appInfos);
-                broadcastAppUpdated();
                 updateStoredAppWithSys();
+
+                broadcastAppUpdated();
             }
         }.execute();
-
-        return appList;
     }
 
     private void refreshAppList(List<AppInfo> appInfos) {
