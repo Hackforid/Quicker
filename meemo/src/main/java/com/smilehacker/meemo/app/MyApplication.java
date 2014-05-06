@@ -1,9 +1,11 @@
 package com.smilehacker.meemo.app;
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.StringArraySerializer;
+import com.smilehacker.meemo.service.MainService;
 
 import se.emilsjolander.sprinkles.Migration;
 import se.emilsjolander.sprinkles.Sprinkles;
@@ -18,6 +20,10 @@ public class MyApplication extends Application {
         super.onCreate();
 
         initDB();
+
+        Intent intent = new Intent(getApplicationContext(), MainService.class);
+        intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
+        startService(intent);
     }
 
     private void initDB() {
@@ -29,4 +35,5 @@ public class MyApplication extends Application {
         migration.createTable(AppInfo.class);
         sprinkles.addMigration(migration);
     }
+
 }

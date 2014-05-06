@@ -13,19 +13,15 @@ import com.smilehacker.meemo.plugin.GAActivity;
 public class MainActivity extends GAActivity {
 
     private SPManager mSPManager;
-    private DialFragment mDialFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mSPManager = SPManager.getInstance(this);
-        mDialFragment = new DialFragment();
-
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, mDialFragment)
+                    .add(R.id.container, new DialFragment())
                     .commit();
         }
     }

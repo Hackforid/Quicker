@@ -1,5 +1,6 @@
 package com.smilehacker.meemo.service;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,6 +22,7 @@ import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.activity.MainActivity;
 import com.smilehacker.meemo.app.DeviceInfo;
 import com.smilehacker.meemo.data.SPManager;
+import com.smilehacker.meemo.utils.DLog;
 
 public class MainService extends Service {
 
@@ -54,25 +56,29 @@ public class MainService extends Service {
     public void onCreate() {
         super.onCreate();
         mSPManager = SPManager.getInstance(this);
+        startForeground(1, new Notification());
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String command = intent.getStringExtra(KEY_COMMAND);
         if (command == null) {
-
+            DLog.i("command null");
         } else if (command.equals(COMMAND_SHOW_FLOAT_VIEW)) {
+            DLog.i("command show");
             showFloatView();
         } else if (command.equals(COMMAND_REMOVE_FLOAT_VIEW)) {
+            DLog.i("command remove");
             removeFloatView();
         }
 
-        return super.onStartCommand(intent, flags, startId);
+        return START_REDELIVER_INTENT;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        DLog.i("service destroy");
         removeFloatView();
     }
 

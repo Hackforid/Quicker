@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.smilehacker.meemo.activity.FloatActivity"
+            android:label="@string/app_name"
+            android:theme="@style/TransparentTheme"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            >
+        </activity>
 
         <receiver android:name="com.smilehacker.meemo.receiver.PackageUpdateReceiver" >
             <intent-filter>
