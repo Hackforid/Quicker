@@ -110,14 +110,6 @@ public class AppAdapter extends BaseAdapter {
     private Drawable getIcon(AppInfo appInfo) {
         PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(appInfo.packageName);
         return packageInfo.applicationInfo.loadIcon(mPackageManager);
-//        if (appInfo.icon == null) {
-//            PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(appInfo.packageName);
-//            appInfo.icon = packageInfo.applicationInfo.loadIcon(mPackageManager);
-//        } else {
-//            return appInfo.icon;
-//        }
-//
-//        return appInfo.icon;
     }
 
     private static class ViewHolder {

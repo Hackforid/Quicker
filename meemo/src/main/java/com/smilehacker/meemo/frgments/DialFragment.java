@@ -108,7 +108,7 @@ public class DialFragment extends Fragment{
         mStatusBar = view.findViewById(R.id.v_status_bar);
         mNavgationBar = view.findViewById(R.id.v_navigation);
 
-        setTransparent();
+        enableTransparent();
         setViewHeight();
         initKeyboard();
         initView();
@@ -141,7 +141,7 @@ public class DialFragment extends Fragment{
         mIsLoadApps = true;
     }
 
-    private void setTransparent() {
+    private void enableTransparent() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             mIsKitKat = false;
             return;
