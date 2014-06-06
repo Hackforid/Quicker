@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.frgments.DialFragment;
+import com.smilehacker.meemo.plugin.image.AsyncIconLoader;
 import com.smilehacker.meemo.utils.DLog;
 import com.smilehacker.meemo.utils.PackageHelper;
 
@@ -30,6 +31,7 @@ public class AppAdapter extends BaseAdapter {
     private LayoutInflater mLayoutInflater;
     private PackageHelper mPackageHelper;
     private PackageManager mPackageManager;
+    private AsyncIconLoader mAsyncIconLoader;
 
     private DialFragment mFragment;
 
@@ -40,6 +42,7 @@ public class AppAdapter extends BaseAdapter {
         mPackageManager = context.getPackageManager();
         mPackageHelper = new PackageHelper(context);
         mFragment = dialFragment;
+        mAsyncIconLoader = new AsyncIconLoader(context);
     }
 
     public void refreshApps(List<AppInfo> appInfos) {
@@ -89,11 +92,7 @@ public class AppAdapter extends BaseAdapter {
         final AppInfo appInfo = mAppInfos.get(i);
 
         holder.tvAppName.setText(appInfo.appName);
-        try {
-            holder.ivAppIcon.setImageDrawable(getIcon(appInfo));
-        } catch (Exception e) {
-            DLog.d(e.toString());
-        }
+        mAsyncIconLoader.loadBitmap(appInfo.packageName, holder.ivAppIcon);
 
         view.setOnClickListener(new View.OnClickListener() {
 
@@ -105,11 +104,6 @@ public class AppAdapter extends BaseAdapter {
 
 
         return view;
-    }
-
-    private Drawable getIcon(AppInfo appInfo) {
-        PackageInfo packageInfo = mPackageHelper.getPkgInfoByPkgName(appInfo.packageName);
-        return packageInfo.applicationInfo.loadIcon(mPackageManager);
     }
 
     private static class ViewHolder {
