@@ -36,6 +36,7 @@ import com.smilehacker.meemo.service.MainService;
 import com.smilehacker.meemo.utils.AppManager;
 import com.smilehacker.meemo.utils.DLog;
 import com.smilehacker.meemo.utils.PackageHelper;
+import com.smilehacker.meemo.views.FlipGridLayout;
 import com.smilehacker.meemo.views.KeyView;
 
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ import me.grantland.widget.AutofitTextView;
  */
 public class DialFragment extends Fragment{
 
-    private GridLayout mGlKeyboard;
+    private FlipGridLayout mGlKeyboard;
     private ListView mLvApps;
     private RelativeLayout mRlFooter;
     private TextView mTvNum;
@@ -97,7 +98,7 @@ public class DialFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dialer, container, false);
 
-        mGlKeyboard = (GridLayout) view.findViewById(R.id.gl_keyboard);
+        mGlKeyboard = (FlipGridLayout) view.findViewById(R.id.gl_keyboard);
         mLvApps = (ListView) view.findViewById(R.id.lv_apps);
         mRlFooter = (RelativeLayout) view.findViewById(R.id.rl_footer);
         mTvNum = (AutofitTextView) view.findViewById(R.id.tv_num);
@@ -305,28 +306,14 @@ public class DialFragment extends Fragment{
         });
     }
 
-    private void setKeyboardGesture(View view) {
-        final GestureDetector gestureDetector = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
-            private static final int FLING_MIN_DISTANCE = 50;
-            private static final int FLING_MIN_VELOCITY = 0;
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if (e2.getY() - e1.getY() > FLING_MIN_DISTANCE && Math.abs(velocityY) > FLING_MIN_VELOCITY) {
-                    showKeyboard(mIsKeyboardHide);
-                }
-                return super.onFling(e1, e2, velocityX, velocityY);
-            }
-        });
-
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
-    }
-
     private void initKeyboard() {
+
+        mGlKeyboard.setOnFlipListener(new FlipGridLayout.Onfliplistener() {
+            @Override
+            public void onflingdown() {
+                showKeyboard(mIsKeyboardHide);
+            }
+        });
 
         Point size = new Point();
         getActivity().getWindowManager().getDefaultDisplay().getSize(size);
@@ -343,7 +330,7 @@ public class DialFragment extends Fragment{
             keyView.setLayoutParams(param);
 
             mGlKeyboard.addView(keyView);
-            setKeyboardGesture(keyView);
+//            setKeyboardGesture(keyView);
             keyView.setOnClickListener(new KeyboradOnClickListener(i + 1));
         }
     }
