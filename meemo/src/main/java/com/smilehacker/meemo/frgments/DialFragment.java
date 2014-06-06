@@ -84,7 +84,7 @@ public class DialFragment extends Fragment{
         mEventBus = EventBus.getDefault();
         mEventBus.register(this);
 
-        //startMainService();
+        startMainService();
     }
 
     @Override

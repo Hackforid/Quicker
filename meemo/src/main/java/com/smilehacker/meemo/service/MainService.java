@@ -180,7 +180,7 @@ public class MainService extends Service {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainService.this, FloatActivity.class);
+                Intent intent = new Intent(MainService.this, MainActivity.class);
                 intent.putExtra(FloatActivity.KEY_POSITION_X, mWmParams.x);
                 intent.putExtra(FloatActivity.KEY_POSITION_Y, mWmParams.y);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

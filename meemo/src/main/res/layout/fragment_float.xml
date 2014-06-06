@@ -4,15 +4,31 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/bg_app_list_transparent"
-
+              android:background="@android:color/white"
     >
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        />
+    <me.grantland.widget.AutofitTextView
+        android:id="@+id/tv_num"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/v_status_bar"
+        android:textColor="@android:color/tertiary_text_dark"
+        android:textSize="30sp"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        />
 
     <com.smilehacker.meemo.views.HorizentalAppGridView
         android:id="@+id/v_app_pager"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="@android:color/holo_blue_light"
+        android:background="@android:color/background_light"
         >
 
     </com.smilehacker.meemo.views.HorizentalAppGridView>
@@ -23,9 +39,13 @@
         android:layout_height="match_parent"
         android:columnCount="3"
         android:rowCount="3"
-        android:background="@android:color/black"
         >
 
     </GridLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"
+        />
 </LinearLayout>

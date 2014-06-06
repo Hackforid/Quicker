@@ -7,7 +7,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 /**
  * Created by kleist on 14-4-28.
  */
-public class GAActivity extends Activity {
+public class GAActivity extends BaseActivity {
 
     @Override
     protected void onStart() {

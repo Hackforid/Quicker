@@ -21,9 +21,9 @@ public class MyApplication extends Application {
 
         initDB();
 
-        Intent intent = new Intent(getApplicationContext(), MainService.class);
-        intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
-        startService(intent);
+//        Intent intent = new Intent(getApplicationContext(), MainService.class);
+//        intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
+//        startService(intent);
     }
 
     private void initDB() {
