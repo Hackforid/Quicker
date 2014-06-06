@@ -59,6 +59,7 @@ public class DialFragment extends Fragment{
     private RelativeLayout mRlRoot;
     private View mStatusBar;
     private View mNavgationBar;
+    private View mLvHeader;
 
     private String mNumStr;
     private Boolean mIsKeyboardHide = false;
@@ -206,6 +207,7 @@ public class DialFragment extends Fragment{
     }
 
     private void initView() {
+        addHeaderToAppListView();
         mLvApps.setAdapter(mAppAdapter);
 
         setBackspace();
@@ -238,6 +240,13 @@ public class DialFragment extends Fragment{
                 startActivity(intent);
             }
         });
+    }
+
+    private void addHeaderToAppListView() {
+        mLvHeader = new View(getActivity());
+        AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0);
+        mLvHeader.setLayoutParams(layoutParams);
+        mLvApps.addHeaderView(mLvHeader);
     }
 
     private Boolean deleteAllInputNum() {
@@ -345,12 +354,16 @@ public class DialFragment extends Fragment{
 
     private void showKeyboard(Boolean toShow) {
         if (toShow && mIsKeyboardHide) {
-            ValueAnimator va = ValueAnimator.ofInt(0, mKeyBoradHeight);
+            final ValueAnimator va = ValueAnimator.ofInt(0, mKeyBoradHeight);
             va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator valueAnimator) {
                     Integer value = (Integer) valueAnimator.getAnimatedValue();
                     mLvApps.setPadding(mLvApps.getPaddingLeft(), mLvApps.getPaddingTop(), mLvApps.getPaddingRight(), value);
+
+                    ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
+                    headerLp.height = mKeyBoradHeight - value;
+                    mLvHeader.setLayoutParams(headerLp);
 
                     mGlKeyboard.setTop(mKeyboardTop + mKeyBoradHeight - value);
 
@@ -390,6 +403,9 @@ public class DialFragment extends Fragment{
                     Integer value = (Integer) valueAnimator.getAnimatedValue();
                     mLvApps.setPadding(mLvApps.getPaddingLeft(), mLvApps.getPaddingTop(), mLvApps.getPaddingRight(), mKeyBoradHeight - value);
 
+                    ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
+                    headerLp.height = value;
+                    mLvHeader.setLayoutParams(headerLp);
 
                     ViewGroup.LayoutParams lp = mGlKeyboard.getLayoutParams();
                     lp.height = mKeyBoradHeight - value;
