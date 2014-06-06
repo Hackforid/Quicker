@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.activity.SettingActivity;
 import com.smilehacker.meemo.adapter.AppAdapter;
+import com.smilehacker.meemo.app.DeviceInfo;
 import com.smilehacker.meemo.data.SPManager;
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.event.AppEvent;
@@ -71,6 +72,7 @@ public class DialFragment extends Fragment{
     private AppManager mAppManager;
     private EventBus mEventBus;
     private SPManager mSPManager;
+    private DeviceInfo mDeviceInfo;
 
     private Boolean mIsKitKat = false;
 
@@ -80,6 +82,7 @@ public class DialFragment extends Fragment{
         mAppAdapter = new AppAdapter(getActivity(), this, new ArrayList<AppInfo>());
         mAppManager = AppManager.getInstance(getActivity());
         mSPManager = SPManager.getInstance(getActivity());
+        mDeviceInfo = new DeviceInfo(getActivity());
         mKeyBoradHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_height);
         mNumStr = "";
 
@@ -362,7 +365,8 @@ public class DialFragment extends Fragment{
                     mLvApps.setPadding(mLvApps.getPaddingLeft(), mLvApps.getPaddingTop(), mLvApps.getPaddingRight(), value);
 
                     ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
-                    headerLp.height = mKeyBoradHeight - value;
+                    double headerHeight = (mDeviceInfo.screenHeight / 3.0) * (1 - value * 1.0 / mKeyBoradHeight);
+                    headerLp.height = (int) headerHeight;
                     mLvHeader.setLayoutParams(headerLp);
 
                     mGlKeyboard.setTop(mKeyboardTop + mKeyBoradHeight - value);
@@ -393,7 +397,7 @@ public class DialFragment extends Fragment{
 
                 }
             });
-            va.setDuration(300);
+            va.setDuration(200);
             va.start();
         } else if (!toShow && !mIsKeyboardHide) {
             ValueAnimator va = ValueAnimator.ofInt(0, mKeyBoradHeight);
@@ -404,7 +408,8 @@ public class DialFragment extends Fragment{
                     mLvApps.setPadding(mLvApps.getPaddingLeft(), mLvApps.getPaddingTop(), mLvApps.getPaddingRight(), mKeyBoradHeight - value);
 
                     ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
-                    headerLp.height = value;
+                    double headerHeight = (mDeviceInfo.screenHeight / 3.0) * (value * 1.0 / mKeyBoradHeight);
+                    headerLp.height = (int) headerHeight;
                     mLvHeader.setLayoutParams(headerLp);
 
                     ViewGroup.LayoutParams lp = mGlKeyboard.getLayoutParams();
@@ -435,7 +440,7 @@ public class DialFragment extends Fragment{
 
                 }
             });
-            va.setDuration(300);
+            va.setDuration(200);
             va.start();
         }
     }
