@@ -31,6 +31,15 @@
             >
         </activity>
 
+        <activity
+            android:name="com.smilehacker.meemo.activity.SettingActivity"
+            android:label="@string/setting_title" >
+        </activity>
+
+        <service
+            android:name=".service.MainService">
+        </service>
+
         <receiver android:name="com.smilehacker.meemo.receiver.PackageUpdateReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
@@ -40,20 +49,17 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="com.smilehacker.meemo.activity.SettingActivity"
-            android:label="@string/setting_title" >
-        </activity>
+        <receiver android:name="com.smilehacker.meemo.receiver.BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
 
-        <service
-            android:name=".service.MainService"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
 </manifest>

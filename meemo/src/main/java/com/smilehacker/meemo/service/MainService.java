@@ -57,7 +57,6 @@ public class MainService extends Service {
     public void onCreate() {
         super.onCreate();
         mSPManager = SPManager.getInstance(this);
-        startForeground(1, new Notification());
     }
 
     @Override
@@ -65,6 +64,7 @@ public class MainService extends Service {
         String command = intent.getStringExtra(KEY_COMMAND);
         if (command == null) {
             DLog.i("command null");
+            showFloatView();
         } else if (command.equals(COMMAND_SHOW_FLOAT_VIEW)) {
             DLog.i("command show");
             showFloatView();

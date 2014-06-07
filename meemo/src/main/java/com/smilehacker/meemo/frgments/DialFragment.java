@@ -506,10 +506,10 @@ public class DialFragment extends Fragment{
 
 
     private void startMainService() {
-        Intent intent = new Intent(getActivity().getApplicationContext(), MainService.class);
         if (mSPManager.getShouldShowFlowView()) {
+            Intent intent = new Intent(getActivity().getApplicationContext(), MainService.class);
             intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
+            getActivity().startService(intent);
         }
-        getActivity().startService(intent);
     }
 }
