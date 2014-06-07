@@ -1,6 +1,8 @@
 package com.smilehacker.meemo.service;
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,6 +11,7 @@ import android.content.IntentFilter;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,6 +33,7 @@ public class MainService extends Service {
     public final static String KEY_COMMAND = "key_command";
     public final static String COMMAND_SHOW_FLOAT_VIEW = "command_show_float_view";
     public final static String COMMAND_REMOVE_FLOAT_VIEW = "command_remove_float_view";
+    public final static String COMMAND_CHECK = "command_check";
 
     private DeviceInfo mDeviceInfo;
     private SPManager mSPManager;
@@ -44,6 +48,8 @@ public class MainService extends Service {
     private int mTouchDownY;
     private Boolean mIsMove;
     private Boolean mIsFloatViewShow = false;
+    private AlarmManager mAlarmManager;
+    private PendingIntent mAlarmPendingIntent;
 
     private ScreenOrientationChangeBroadcastReceiver mReceiver;
 
@@ -57,6 +63,13 @@ public class MainService extends Service {
     public void onCreate() {
         super.onCreate();
         mSPManager = SPManager.getInstance(this);
+        mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        Intent intent = new Intent(this, MainService.class);
+        intent.putExtra(KEY_COMMAND, COMMAND_CHECK);
+        mAlarmPendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long triggerTime = SystemClock.elapsedRealtime();
+        mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME, triggerTime, 10000, mAlarmPendingIntent);
     }
 
     @Override
@@ -71,6 +84,13 @@ public class MainService extends Service {
         } else if (command.equals(COMMAND_REMOVE_FLOAT_VIEW)) {
             DLog.i("command remove");
             this.stopSelf();
+        } else if (command.equals(COMMAND_CHECK)) {
+            DLog.i("service check");
+            if (mSPManager.getShouldShowFlowView()) {
+                showFloatView();
+            } else {
+                this.stopSelf();
+            }
         }
 
         return START_REDELIVER_INTENT;
@@ -80,6 +100,7 @@ public class MainService extends Service {
     public void onDestroy() {
         super.onDestroy();
         DLog.i("service destroy");
+        mAlarmManager.cancel(mAlarmPendingIntent);
         removeFloatView();
     }
 
