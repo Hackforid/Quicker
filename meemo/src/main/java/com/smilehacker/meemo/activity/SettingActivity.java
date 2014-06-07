@@ -102,10 +102,8 @@ public class SettingActivity extends GAPreferenceActivity {
                     startService(intent);
                 } else {
                     mPrefAutoBoot.setEnabled(false);
-                    // TODO kill service
                     Intent intent = new Intent(getApplicationContext(), MainService.class);
-                    intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_REMOVE_FLOAT_VIEW);
-                    startService(intent);
+                    stopService(intent);
                 }
 
                 return true;
