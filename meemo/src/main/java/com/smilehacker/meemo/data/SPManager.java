@@ -48,6 +48,14 @@ public class SPManager {
         return mConfigData.getBoolean(mContext.getString(R.string.setting_key_floatview), true);
     }
 
+    public Boolean getShoudAutoBoot() {
+        return mConfigData.getBoolean(mContext.getString(R.string.setting_key_autoboot), true);
+    }
+
+    public Boolean getShoudUseBigScreenList() {
+        return mConfigData.getBoolean(mContext.getString(R.string.setting_key_bigscreen_list), true);
+    }
+
     public void setFloatViewPos(int x, int y) {
         SharedPreferences.Editor editor = mConfigData.edit();
         editor.putInt(KEY_FLOATVIEW_POS_X, x);

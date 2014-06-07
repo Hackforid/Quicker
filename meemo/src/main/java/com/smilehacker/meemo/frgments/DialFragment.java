@@ -364,10 +364,12 @@ public class DialFragment extends Fragment{
                     Integer value = (Integer) valueAnimator.getAnimatedValue();
                     mLvApps.setPadding(mLvApps.getPaddingLeft(), mLvApps.getPaddingTop(), mLvApps.getPaddingRight(), value);
 
-                    ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
-                    double headerHeight = (mDeviceInfo.screenHeight / 3.0) * (1 - value * 1.0 / mKeyBoradHeight);
-                    headerLp.height = (int) headerHeight;
-                    mLvHeader.setLayoutParams(headerLp);
+                    if (mSPManager.getShoudUseBigScreenList()) {
+                        ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
+                        double headerHeight = (mDeviceInfo.screenHeight / 3.0) * (1 - value * 1.0 / mKeyBoradHeight);
+                        headerLp.height = (int) headerHeight;
+                        mLvHeader.setLayoutParams(headerLp);
+                    }
 
                     mGlKeyboard.setTop(mKeyboardTop + mKeyBoradHeight - value);
 
@@ -407,10 +409,12 @@ public class DialFragment extends Fragment{
                     Integer value = (Integer) valueAnimator.getAnimatedValue();
                     mLvApps.setPadding(mLvApps.getPaddingLeft(), mLvApps.getPaddingTop(), mLvApps.getPaddingRight(), mKeyBoradHeight - value);
 
-                    ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
-                    double headerHeight = (mDeviceInfo.screenHeight / 3.0) * (value * 1.0 / mKeyBoradHeight);
-                    headerLp.height = (int) headerHeight;
-                    mLvHeader.setLayoutParams(headerLp);
+                    if (mSPManager.getShoudUseBigScreenList()) {
+                        ViewGroup.LayoutParams headerLp = mLvHeader.getLayoutParams();
+                        double headerHeight = (mDeviceInfo.screenHeight / 3.0) * (value * 1.0 / mKeyBoradHeight);
+                        headerLp.height = (int) headerHeight;
+                        mLvHeader.setLayoutParams(headerLp);
+                    }
 
                     ViewGroup.LayoutParams lp = mGlKeyboard.getLayoutParams();
                     lp.height = mKeyBoradHeight - value;

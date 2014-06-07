@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.app.Constants;
+import com.smilehacker.meemo.data.SPManager;
 import com.smilehacker.meemo.plugin.GAPreferenceActivity;
 import com.smilehacker.meemo.service.MainService;
 import com.smilehacker.meemo.utils.AppManager;
@@ -31,10 +32,12 @@ public class SettingActivity extends GAPreferenceActivity {
     private Preference mPrefUpdate;
     private Preference mPrefFeedback;
     private CheckBoxPreference mPrefFloatView;
+    private CheckBoxPreference mPrefAutoBoot;
 
 
     private AppManager mAppManager;
     private PackageHelper mPackageHelper;
+    private SPManager mSPManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +48,7 @@ public class SettingActivity extends GAPreferenceActivity {
 
         mAppManager = AppManager.getInstance(this);
         mPackageHelper = new PackageHelper(this);
+        mSPManager = SPManager.getInstance(this);
 
         initPreference();
     }
@@ -56,6 +60,10 @@ public class SettingActivity extends GAPreferenceActivity {
         mPrefUpdate = findPreference(getString(R.string.setting_key_update));
         mPrefFeedback = findPreference(getString(R.string.setting_key_feedback));
         mPrefFloatView = (CheckBoxPreference) findPreference(getString(R.string.setting_key_floatview));
+        mPrefAutoBoot = (CheckBoxPreference) findPreference(getString(R.string.setting_key_autoboot));
+
+        mPrefAutoBoot.setEnabled(mSPManager.getShouldShowFlowView());
+
 
         mPrefClearCache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -88,10 +96,13 @@ public class SettingActivity extends GAPreferenceActivity {
             public boolean onPreferenceChange(Preference preference, Object o) {
                 Boolean shouldShowFloatview = (Boolean) o;
                 if (shouldShowFloatview) {
+                    mPrefAutoBoot.setEnabled(true);
                     Intent intent = new Intent(getApplicationContext(), MainService.class);
                     intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
                     startService(intent);
                 } else {
+                    mPrefAutoBoot.setEnabled(false);
+                    // TODO kill service
                     Intent intent = new Intent(getApplicationContext(), MainService.class);
                     intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_REMOVE_FLOAT_VIEW);
                     startService(intent);

@@ -14,7 +14,8 @@ import com.smilehacker.meemo.utils.DLog;
 public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (SPManager.getInstance(context).getShouldShowFlowView()) {
+        SPManager spManager = SPManager.getInstance(context);
+        if (spManager.getShouldShowFlowView() && spManager.getShoudAutoBoot()) {
             Intent serviceIntent = new Intent(context, MainService.class);
             serviceIntent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
             context.startService(serviceIntent);

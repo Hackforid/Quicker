@@ -17,6 +17,12 @@
     <string name="setting_title_floatview">FloatView</string>
     <string name="setting_summary_floatview">Display a float view in screen to launch Meemo quickly.</string>
     <string name="setting_key_floatview" translatable="false">>key_setting_floatview</string>
+    <string name="setting_title_autoboot">AutoBoot</string>
+    <string name="setting_summary_autoboot">Display float view after booting.</string>
+    <string name="setting_key_autoboot" translatable="false">>key_setting_autoboot</string>
+    <string name="setting_title_bigscreen_list">Big screen gesture</string>
+    <string name="setting_summary_bigscreen_list">Make app list more convenient for big screen.</string>
+    <string name="setting_key_bigscreen_list" translatable="false">>key_setting_bigscreen_list</string>
 
     <string name="setting_title_about">About Meemo</string>
     <string name="setting_key_about" translatable="false">>key_setting_about</string>

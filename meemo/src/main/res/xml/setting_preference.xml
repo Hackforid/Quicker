@@ -12,6 +12,18 @@
         android:summary="@string/setting_summary_floatview"
         android:defaultValue="true"
         />
+    <CheckBoxPreference
+        android:key="@string/setting_key_autoboot"
+        android:title="@string/setting_title_autoboot"
+        android:summary="@string/setting_summary_autoboot"
+        android:defaultValue="true"
+        />
+    <CheckBoxPreference
+        android:key="@string/setting_key_bigscreen_list"
+        android:title="@string/setting_title_bigscreen_list"
+        android:summary="@string/setting_summary_bigscreen_list"
+        android:defaultValue="true"
+        />
     <Preference
         android:key="@string/setting_key_feedback"
         android:title="@string/setting_title_feedback"

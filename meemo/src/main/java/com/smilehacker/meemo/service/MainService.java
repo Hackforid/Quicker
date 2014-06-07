@@ -70,7 +70,7 @@ public class MainService extends Service {
             showFloatView();
         } else if (command.equals(COMMAND_REMOVE_FLOAT_VIEW)) {
             DLog.i("command remove");
-            removeFloatView();
+            this.stopSelf();
         }
 
         return START_REDELIVER_INTENT;

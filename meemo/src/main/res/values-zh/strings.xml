@@ -11,6 +11,10 @@
     <string name="setting_summary_feedback">发送您的建议或您发现的Bug</string>
     <string name="setting_title_floatview">浮动窗口</string>
     <string name="setting_summary_floatview">显示浮动窗口 方便您更快捷的启动Meemo</string>
+    <string name="setting_title_autoboot">自动启动</string>
+    <string name="setting_summary_autoboot">开机时自动显示浮动窗口</string>
+    <string name="setting_title_bigscreen_list">大屏操作优化</string>
+    <string name="setting_summary_bigscreen_list">实验性交互 让列表在大屏上也适合单手操作</string>
 
     <string name="setting_title_about">关于 Meemo</string>
     <string name="setting_title_verison">版本 %1$s</string>
