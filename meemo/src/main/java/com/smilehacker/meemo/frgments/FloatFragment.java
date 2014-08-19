@@ -28,6 +28,7 @@ public class FloatFragment extends Fragment {
     private AppManager mAppManager;
     private String mNumStr;
 
+    public FloatFragment() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

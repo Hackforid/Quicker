@@ -76,6 +76,9 @@ public class DialFragment extends Fragment{
 
     private Boolean mIsKitKat = false;
 
+
+    public DialFragment() {}
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
