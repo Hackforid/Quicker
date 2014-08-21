@@ -22,7 +22,7 @@
         android:key="@string/setting_key_bigscreen_list"
         android:title="@string/setting_title_bigscreen_list"
         android:summary="@string/setting_summary_bigscreen_list"
-        android:defaultValue="true"
+        android:defaultValue="false"
         />
     <Preference
         android:key="@string/setting_key_feedback"
