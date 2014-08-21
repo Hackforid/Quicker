@@ -25,13 +25,13 @@
     <string name="setting_title_floatview">浮动窗口</string>
     <string name="setting_summary_floatview">显示浮动窗口 方便您更快捷的启动Meemo</string>
 
-    <string name="setting_title_floatview_setting">配置悬浮窗空</string>
+    <string name="setting_title_floatview_setting">配置浮动窗口</string>
     <string name="setting_title_floatview_edge">贴到屏幕边缘</string>
-    <string name="setting_title_floatview_size">悬浮窗口大小设置</string>
+    <string name="setting_title_floatview_size">浮动窗口大小设置</string>
 
 
-    <string name="rebuild_cache">重建缓存</string>
-    <string name="rebuild_cache_summary">重建缓存中...</string>
+    <string name="rebuild_cache">重建缓存&#8230;</string>
+    <string name="rebuild_cache_summary">重建缓存中&#8230;</string>
     <string name="feedback_mail_title">Feedback of Meemo</string>
     <string name="send_mail">发送邮件</string>
 </resources>

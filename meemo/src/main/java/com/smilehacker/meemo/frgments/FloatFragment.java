@@ -39,7 +39,7 @@ public class FloatFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_float, null);
+        View view = inflater.inflate(R.layout.fragment_float, container, false);
 
         mGlKeyboard = (GridLayout) view.findViewById(R.id.gl_keyboard);
         mAppGrid = (HorizentalAppGridView) view.findViewById(R.id.v_app_pager);

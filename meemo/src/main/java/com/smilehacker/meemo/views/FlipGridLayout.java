@@ -55,7 +55,7 @@ public class FlipGridLayout extends GridLayout {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return mGestureDetector.onTouchEvent(ev) ? true : super.onInterceptTouchEvent(ev);
+        return mGestureDetector.onTouchEvent(ev) || super.onInterceptTouchEvent(ev);
     }
 
     public interface Onfliplistener {

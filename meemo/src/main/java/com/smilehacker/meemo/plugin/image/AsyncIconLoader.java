@@ -62,7 +62,6 @@ public class AsyncIconLoader {
         Bitmap bitmap = getBitmapFromMemCache(packageName);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
-            return;
         } else {
             asyncLoadIcon(packageName, imageView);
         }

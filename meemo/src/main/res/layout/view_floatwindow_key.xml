@@ -27,7 +27,7 @@
             android:layout_alignBottom="@id/tv_num"
             android:layout_marginLeft="1dp"
             android:textColor="@android:color/tertiary_text_dark"
-            android:textSize="10sp"
+            android:textSize="12sp"
             />
 
     </RelativeLayout>

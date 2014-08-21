@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'hugo'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 20
     buildToolsVersion "19.1.0"
 
     signingConfigs {
@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionCode 7
         versionName "0.4.6.7 beta2"
     }

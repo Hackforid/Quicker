@@ -23,6 +23,7 @@
         android:textSize="30sp"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:visibility="gone"
         android:singleLine="true"
         />
