@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.app.Constants;
-import com.smilehacker.meemo.data.SPManager;
+import com.smilehacker.meemo.data.PrefsManager;
 import com.smilehacker.meemo.plugin.GAPreferenceActivity;
 import com.smilehacker.meemo.service.MainService;
 import com.smilehacker.meemo.utils.AppManager;
@@ -34,10 +34,13 @@ public class SettingActivity extends GAPreferenceActivity {
     private CheckBoxPreference mPrefFloatView;
     private CheckBoxPreference mPrefAutoBoot;
 
+    private Preference mPrefFloatViewSetting;
+    private CheckBoxPreference mPrefFloatViewAlignToEdge;
+
 
     private AppManager mAppManager;
     private PackageHelper mPackageHelper;
-    private SPManager mSPManager;
+    private PrefsManager mSPManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +51,7 @@ public class SettingActivity extends GAPreferenceActivity {
 
         mAppManager = AppManager.getInstance(this);
         mPackageHelper = new PackageHelper(this);
-        mSPManager = SPManager.getInstance(this);
+        mSPManager = PrefsManager.getInstance(this);
 
         initPreference();
     }
@@ -61,6 +64,9 @@ public class SettingActivity extends GAPreferenceActivity {
         mPrefFeedback = findPreference(getString(R.string.setting_key_feedback));
         mPrefFloatView = (CheckBoxPreference) findPreference(getString(R.string.setting_key_floatview));
         mPrefAutoBoot = (CheckBoxPreference) findPreference(getString(R.string.setting_key_autoboot));
+        mPrefFloatViewSetting = findPreference(getString(R.string.setting_key_floatview_setting));
+        mPrefFloatViewAlignToEdge = (CheckBoxPreference) findPreference(getString(R.string.setting_key_floatview_edge));
+
 
         mPrefAutoBoot.setEnabled(mSPManager.getShouldShowFlowView());
 
@@ -97,11 +103,13 @@ public class SettingActivity extends GAPreferenceActivity {
                 Boolean shouldShowFloatview = (Boolean) o;
                 if (shouldShowFloatview) {
                     mPrefAutoBoot.setEnabled(true);
+                    mPrefFloatViewSetting.setEnabled(true);
                     Intent intent = new Intent(getApplicationContext(), MainService.class);
                     intent.putExtra(MainService.KEY_COMMAND, MainService.COMMAND_SHOW_FLOAT_VIEW);
                     startService(intent);
                 } else {
                     mPrefAutoBoot.setEnabled(false);
+                    mPrefFloatViewSetting.setEnabled(false);
                     Intent intent = new Intent(getApplicationContext(), MainService.class);
                     stopService(intent);
                 }
@@ -133,6 +141,8 @@ public class SettingActivity extends GAPreferenceActivity {
                 return true;
             }
         });
+
+        mPrefFloatViewSetting.setEnabled(mPrefFloatView.isEnabled());
     }
 
     private void visitAuthorWeibo() {

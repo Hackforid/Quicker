@@ -30,7 +30,7 @@ import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.activity.SettingActivity;
 import com.smilehacker.meemo.adapter.AppAdapter;
 import com.smilehacker.meemo.app.DeviceInfo;
-import com.smilehacker.meemo.data.SPManager;
+import com.smilehacker.meemo.data.PrefsManager;
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.event.AppEvent;
 import com.smilehacker.meemo.service.MainService;
@@ -71,7 +71,7 @@ public class DialFragment extends Fragment{
     private AppAdapter mAppAdapter;
     private AppManager mAppManager;
     private EventBus mEventBus;
-    private SPManager mSPManager;
+    private PrefsManager mSPManager;
     private DeviceInfo mDeviceInfo;
 
     private Boolean mIsKitKat = false;
@@ -84,7 +84,7 @@ public class DialFragment extends Fragment{
         super.onCreate(savedInstanceState);
         mAppAdapter = new AppAdapter(getActivity(), this, new ArrayList<AppInfo>());
         mAppManager = AppManager.getInstance(getActivity());
-        mSPManager = SPManager.getInstance(getActivity());
+        mSPManager = PrefsManager.getInstance(getActivity());
         mDeviceInfo = new DeviceInfo(getActivity());
         mKeyBoradHeight = getResources().getDimensionPixelOffset(R.dimen.keyboard_height);
         mNumStr = "";

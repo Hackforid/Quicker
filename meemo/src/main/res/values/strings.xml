@@ -14,9 +14,6 @@
     <string name="setting_title_feedback">Feedback</string>
     <string name="setting_summary_feedback">Send me your advice or bug report.</string>
     <string name="setting_key_feedback" translatable="false">>key_setting_feedback</string>
-    <string name="setting_title_floatview">FloatView</string>
-    <string name="setting_summary_floatview">Display a float view in screen to launch Meemo quickly.</string>
-    <string name="setting_key_floatview" translatable="false">>key_setting_floatview</string>
     <string name="setting_title_autoboot">AutoBoot</string>
     <string name="setting_summary_autoboot">Display float view after booting.</string>
     <string name="setting_key_autoboot" translatable="false">>key_setting_autoboot</string>
@@ -36,6 +33,15 @@
     <string name="setting_summary_update">Check new version in your App Store.</string>
     <string name="setting_key_update" translatable="false">>key_setting_update</string>
 
+    <string name="setting_title_floatview">FloatView</string>
+    <string name="setting_summary_floatview">Display a float view in screen to launch Meemo quickly.</string>
+    <string name="setting_key_floatview" translatable="false">>key_setting_floatview</string>
+    <string name="setting_key_floatview_setting">key_setting_floatview_settting</string>
+    <string name="setting_title_floatview_setting">FloatView Setting</string>
+    <string name="setting_key_floatview_edge">key_setting_float_edge</string>
+    <string name="setting_title_floatview_edge">Align to edge</string>
+
+    <!-- normal -->
     <string name="rebuild_cache">Rebuilding</string>
     <string name="rebuild_cache_summary">Please wait...</string>
     <string name="feedback_mail_title">Feedback of Meemo</string>

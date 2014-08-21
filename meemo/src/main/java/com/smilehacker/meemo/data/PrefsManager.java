@@ -11,29 +11,29 @@ import com.smilehacker.meemo.R;
 /**
  * Created by kleist on 14-4-5.
  */
-public class SPManager {
+public class PrefsManager {
 
     private final static String KEY_FLOATVIEW_POS_X = "key_floatview_pos_x";
     private final static String KEY_FLOATVIEW_POS_Y = "key_floatview_pos_y";
 
-    private static SPManager mInstance;
+    private static PrefsManager mInstance;
     private SharedPreferences mConfigData;
     private Context mContext;
 
     private Gson mGson;
 
 
-    private SPManager(Context context) {
+    private PrefsManager(Context context) {
         mContext = context;
         mGson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         mConfigData = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public static SPManager getInstance(Context context) {
+    public static PrefsManager getInstance(Context context) {
         if (mInstance == null) {
-            synchronized (SPManager.class) {
+            synchronized (PrefsManager.class) {
                 if (mInstance == null) {
-                    mInstance = new SPManager(context.getApplicationContext());
+                    mInstance = new PrefsManager(context.getApplicationContext());
                 }
             }
         }
@@ -54,6 +54,10 @@ public class SPManager {
 
     public Boolean getShoudUseBigScreenList() {
         return mConfigData.getBoolean(mContext.getString(R.string.setting_key_bigscreen_list), true);
+    }
+
+    public Boolean getShouldAlignToEdge() {
+        return mConfigData.getBoolean(mContext.getString(R.string.setting_key_floatview_edge), true);
     }
 
     public void setFloatViewPos(int x, int y) {

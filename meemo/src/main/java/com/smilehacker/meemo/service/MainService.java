@@ -1,7 +1,6 @@
 package com.smilehacker.meemo.service;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -25,7 +24,7 @@ import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.activity.FloatActivity;
 import com.smilehacker.meemo.activity.MainActivity;
 import com.smilehacker.meemo.app.DeviceInfo;
-import com.smilehacker.meemo.data.SPManager;
+import com.smilehacker.meemo.data.PrefsManager;
 import com.smilehacker.meemo.utils.DLog;
 
 public class MainService extends Service {
@@ -36,7 +35,7 @@ public class MainService extends Service {
     public final static String COMMAND_CHECK = "command_check";
 
     private DeviceInfo mDeviceInfo;
-    private SPManager mSPManager;
+    private PrefsManager mSPManager;
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mWmParams;
     private LinearLayout mLayout;
@@ -62,7 +61,7 @@ public class MainService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mSPManager = SPManager.getInstance(this);
+        mSPManager = PrefsManager.getInstance(this);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         Intent intent = new Intent(this, MainService.class);
@@ -224,8 +223,15 @@ public class MainService extends Service {
 
     private void animateToEdge() {
         int posX = mWmParams.x;
+        if (!mSPManager.getShouldAlignToEdge()) {
+            if (!(posX < 30 || mDeviceInfo.screenWidth - posX - mLayout.getMeasuredWidth() < 30)) {
+                return;
+            }
+        }
+
         int moveDistance = mLayout.getMeasuredWidth() * 2 / 3;
         int edgeX = (mDeviceInfo.screenWidth - posX) > mDeviceInfo.screenWidth / 2 ? 0 : mDeviceInfo.screenWidth;
+
         mWmParams.x = edgeX;
         updateView();
 

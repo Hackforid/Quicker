@@ -12,6 +12,15 @@
         android:summary="@string/setting_summary_floatview"
         android:defaultValue="true"
         />
+    <PreferenceScreen
+        android:key="@string/setting_key_floatview_setting"
+        android:title="@string/setting_title_floatview_setting"
+        >
+        <CheckBoxPreference
+            android:key="@string/setting_key_floatview_edge"
+            android:title="@string/setting_title_floatview_edge"
+            android:defaultValue="true"/>
+    </PreferenceScreen>
     <CheckBoxPreference
         android:key="@string/setting_key_autoboot"
         android:title="@string/setting_title_autoboot"

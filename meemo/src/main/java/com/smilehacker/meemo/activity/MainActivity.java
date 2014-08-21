@@ -2,17 +2,16 @@ package com.smilehacker.meemo.activity;
 
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.KeyEvent;
 
 import com.smilehacker.meemo.R;
-import com.smilehacker.meemo.data.SPManager;
+import com.smilehacker.meemo.data.PrefsManager;
 import com.smilehacker.meemo.frgments.DialFragment;
 import com.smilehacker.meemo.plugin.GAActivity;
 
 
 public class MainActivity extends GAActivity {
 
-    private SPManager mSPManager;
+    private PrefsManager mSPManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
