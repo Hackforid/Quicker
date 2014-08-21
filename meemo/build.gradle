@@ -36,7 +36,7 @@ dependencies {
     compile 'com.google.android:support-v4:r7'
     compile 'com.google.code.gson:gson:2.2.+'
     compile 'com.belerweb:pinyin4j:2.5.0'
-    compile 'de.greenrobot:eventbus:2.2.0'
+    compile 'de.greenrobot:eventbus:2.2.1'
     compile 'me.grantland:autofittextview:0.1.+'
     compile 'se.emilsjolander:sprinkles:1.2.4@aar'
 }

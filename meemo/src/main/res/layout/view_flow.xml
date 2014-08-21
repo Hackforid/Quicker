@@ -7,8 +7,9 @@
               android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/iv_flow"
-        android:layout_width="43dp"
-        android:layout_height="43dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="8dp"
         android:scaleType="centerInside"
         android:src="@drawable/floatview"
         />

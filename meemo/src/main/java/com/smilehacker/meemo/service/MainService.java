@@ -25,7 +25,10 @@ import com.smilehacker.meemo.activity.FloatActivity;
 import com.smilehacker.meemo.activity.MainActivity;
 import com.smilehacker.meemo.app.DeviceInfo;
 import com.smilehacker.meemo.data.PrefsManager;
+import com.smilehacker.meemo.data.model.event.FloatViewRefreshEvent;
 import com.smilehacker.meemo.utils.DLog;
+
+import de.greenrobot.event.EventBus;
 
 public class MainService extends Service {
 
@@ -51,6 +54,7 @@ public class MainService extends Service {
     private PendingIntent mAlarmPendingIntent;
 
     private ScreenOrientationChangeBroadcastReceiver mReceiver;
+    private EventBus mEventBus;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -63,6 +67,8 @@ public class MainService extends Service {
         super.onCreate();
         mSPManager = PrefsManager.getInstance(this);
         mAlarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        mEventBus = EventBus.getDefault();
+        mEventBus.register(this);
 
         Intent intent = new Intent(this, MainService.class);
         intent.putExtra(KEY_COMMAND, COMMAND_CHECK);
@@ -100,11 +106,26 @@ public class MainService extends Service {
         super.onDestroy();
         DLog.i("service destroy");
         mAlarmManager.cancel(mAlarmPendingIntent);
+        mEventBus.unregister(this);
         removeFloatView();
     }
 
+    @SuppressWarnings("UnusedDeclaration")
+    public void onEventMainThread(FloatViewRefreshEvent event) {
+        switch (event.refreshType) {
+            case ChangeSize:
+                showFloatView();
+                break;
+            default:
+                break;
+        }
+    }
+
     private void showFloatView() {
-        if (mSPManager.getShouldShowFlowView() && !mIsFloatViewShow) {
+        if (mSPManager.getShouldShowFlowView()) {
+            if (mIsFloatViewShow) {
+                removeFloatView();
+            }
             createFloatView();
         }
     }
@@ -131,12 +152,24 @@ public class MainService extends Service {
 
         LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
         mLayout = (LinearLayout) inflater.inflate(R.layout.view_flow, null);
+        mImageView = (ImageView) mLayout.findViewById(R.id.iv_flow);
+        setFloatImageSize(mImageView);
+
         mWindowManager.addView(mLayout, mWmParams);
         mIsFloatViewShow = true;
-        mImageView = (ImageView) mLayout.findViewById(R.id.iv_flow);
 
         configureFloatView();
         listenScreenOrientationChange(true);
+    }
+
+    private void setFloatImageSize(ImageView imageView) {
+        int size = (int) (mDeviceInfo.density * mSPManager.getFloatViewSize());
+        setFloatImageSize(imageView, size);
+    }
+
+    private void setFloatImageSize(ImageView imageView, int size) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+        imageView.setLayoutParams(layoutParams);
     }
 
     private void listenScreenOrientationChange(Boolean willListen) {
@@ -229,7 +262,7 @@ public class MainService extends Service {
             }
         }
 
-        int moveDistance = mLayout.getMeasuredWidth() * 2 / 3;
+        int moveDistance = mLayout.getMeasuredWidth() * 3 / 5;
         int edgeX = (mDeviceInfo.screenWidth - posX) > mDeviceInfo.screenWidth / 2 ? 0 : mDeviceInfo.screenWidth;
 
         mWmParams.x = edgeX;

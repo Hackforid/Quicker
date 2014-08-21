@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import android.view.MenuItem;
@@ -19,10 +20,13 @@ import android.widget.LinearLayout;
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.app.Constants;
 import com.smilehacker.meemo.data.PrefsManager;
+import com.smilehacker.meemo.data.model.event.FloatViewRefreshEvent;
 import com.smilehacker.meemo.plugin.GAPreferenceActivity;
 import com.smilehacker.meemo.service.MainService;
 import com.smilehacker.meemo.utils.AppManager;
 import com.smilehacker.meemo.utils.PackageHelper;
+
+import de.greenrobot.event.EventBus;
 
 public class SettingActivity extends GAPreferenceActivity {
 
@@ -33,6 +37,7 @@ public class SettingActivity extends GAPreferenceActivity {
     private Preference mPrefFeedback;
     private CheckBoxPreference mPrefFloatView;
     private CheckBoxPreference mPrefAutoBoot;
+    private ListPreference mPrefFloatViewSize;
 
     private Preference mPrefFloatViewSetting;
     private CheckBoxPreference mPrefFloatViewAlignToEdge;
@@ -41,6 +46,7 @@ public class SettingActivity extends GAPreferenceActivity {
     private AppManager mAppManager;
     private PackageHelper mPackageHelper;
     private PrefsManager mSPManager;
+    private EventBus mEventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,7 @@ public class SettingActivity extends GAPreferenceActivity {
         mAppManager = AppManager.getInstance(this);
         mPackageHelper = new PackageHelper(this);
         mSPManager = PrefsManager.getInstance(this);
+        mEventBus = EventBus.getDefault();
 
         initPreference();
     }
@@ -66,10 +73,21 @@ public class SettingActivity extends GAPreferenceActivity {
         mPrefAutoBoot = (CheckBoxPreference) findPreference(getString(R.string.setting_key_autoboot));
         mPrefFloatViewSetting = findPreference(getString(R.string.setting_key_floatview_setting));
         mPrefFloatViewAlignToEdge = (CheckBoxPreference) findPreference(getString(R.string.setting_key_floatview_edge));
-
+        mPrefFloatViewSize = (ListPreference) findPreference(getString(R.string.setting_key_floatview_size));
 
         mPrefAutoBoot.setEnabled(mSPManager.getShouldShowFlowView());
 
+
+        mPrefFloatViewSize.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                mSPManager.setFloatViewSize((String) newValue);
+                FloatViewRefreshEvent event = new FloatViewRefreshEvent();
+                event.refreshType = FloatViewRefreshEvent.RefreshType.ChangeSize;
+                mEventBus.post(event);
+                return true;
+            }
+        });
 
         mPrefClearCache.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -143,6 +161,7 @@ public class SettingActivity extends GAPreferenceActivity {
         });
 
         mPrefFloatViewSetting.setEnabled(mPrefFloatView.isEnabled());
+
     }
 
     private void visitAuthorWeibo() {

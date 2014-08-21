@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_floatview_size_title">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+    </string-array>
+    <string-array  translatable="false" name="array_floatview_size_value">
+        <item>43</item>
+        <item>50</item>
+        <item>60</item>
+    </string-array>
+</resources>

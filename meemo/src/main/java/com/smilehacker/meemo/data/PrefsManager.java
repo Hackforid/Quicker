@@ -48,6 +48,17 @@ public class PrefsManager {
         return mConfigData.getBoolean(mContext.getString(R.string.setting_key_floatview), true);
     }
 
+    public void setFloatViewSize(String size) {
+        mConfigData.edit()
+                .putString(mContext.getString(R.string.setting_key_floatview_size), size)
+                .commit();
+    }
+    public int getFloatViewSize() {
+        return Integer.valueOf(
+                mConfigData.getString(mContext.getString(R.string.setting_key_floatview_size),
+                        mContext.getResources().getStringArray(R.array.array_floatview_size_value)[1]));
+    }
+
     public Boolean getShoudAutoBoot() {
         return mConfigData.getBoolean(mContext.getString(R.string.setting_key_autoboot), true);
     }
