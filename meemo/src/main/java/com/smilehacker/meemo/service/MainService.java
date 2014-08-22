@@ -114,6 +114,7 @@ public class MainService extends Service {
     public void onEventMainThread(FloatViewRefreshEvent event) {
         switch (event.refreshType) {
             case ChangeSize:
+                removeFloatView();
                 showFloatView();
                 break;
             default:
@@ -122,10 +123,7 @@ public class MainService extends Service {
     }
 
     private void showFloatView() {
-        if (mSPManager.getShouldShowFlowView()) {
-            if (mIsFloatViewShow) {
-                removeFloatView();
-            }
+        if (mSPManager.getShouldShowFlowView() && !mIsFloatViewShow) {
             createFloatView();
         }
     }
