@@ -2,11 +2,7 @@ package com.smilehacker.meemo.app;
 
 import android.app.Application;
 
-import com.smilehacker.meemo.data.model.AppInfo;
-import com.smilehacker.meemo.data.model.StringArraySerializer;
-
-import se.emilsjolander.sprinkles.Migration;
-import se.emilsjolander.sprinkles.Sprinkles;
+import com.activeandroid.ActiveAndroid;
 
 /**
  * Created by kleist on 14-4-5.
@@ -24,14 +20,9 @@ public class App extends Application {
 //        startService(intent);
     }
 
+
     private void initDB() {
-        Sprinkles sprinkles = Sprinkles.init(getApplicationContext());
-
-        sprinkles.registerType(String[].class, new StringArraySerializer());
-
-        Migration migration = new Migration();
-        migration.createTable(AppInfo.class);
-        sprinkles.addMigration(migration);
+        ActiveAndroid.initialize(this);
     }
 
 }

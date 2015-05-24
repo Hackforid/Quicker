@@ -2,83 +2,71 @@ package com.smilehacker.meemo.data.model;
 
 import android.graphics.drawable.Drawable;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 import java.util.List;
 
-import se.emilsjolander.sprinkles.CursorList;
-import se.emilsjolander.sprinkles.Model;
-import se.emilsjolander.sprinkles.ModelList;
-import se.emilsjolander.sprinkles.Query;
-import se.emilsjolander.sprinkles.annotations.AutoIncrementPrimaryKey;
-import se.emilsjolander.sprinkles.annotations.Column;
-import se.emilsjolander.sprinkles.annotations.Table;
-import se.emilsjolander.sprinkles.annotations.Unique;
 
 /**
  * Created by kleist on 14-4-2.
  */
 
-@Table("app")
+@Table(name = "appinfo")
 public class AppInfo extends Model {
 
     public final static String tableName = "app";
 
-    @AutoIncrementPrimaryKey
-    @Column("id")
-    public long id;
-
     @Expose
     @SerializedName("app_name")
-    @Column("app_name")
+    @Column(name = "app_name")
     public String appName;
 
     @Expose
     @SerializedName("package_name")
-    @Unique
-    @Column("package_name")
+    @Column(name = "package_name", index = true)
     public String packageName;
 
     @Expose
     @SerializedName("full_t9")
-    @Column("full_t9")
+    @Column(name = "full_t9")
     public String[] fullT9;
 
     @Expose
     @SerializedName("short_t9")
-    @Column("short_t9")
+    @Column(name = "short_t9")
     public String[] shortT9;
 
-    @Column("launch_count")
+    @Column(name = "launch_count")
     public long launchCount = 0;
 
-    @Column("launch_date")
+    @Column(name = "launch_date")
     public Date launchDate = new Date(0);
 
     public double priority;
 
     public Drawable icon;
 
-    @Override
-    protected void beforeSave() {
-        super.beforeSave();
-    }
 
     public static List<AppInfo> getInstalledApps() {
-        CursorList<AppInfo> appInfos = Query.all(AppInfo.class).get();
-        List<AppInfo> list = appInfos.asList();
-        appInfos.close();
-        return  list;
+        return new Select().from(AppInfo.class)
+                .execute();
     }
 
     public static AppInfo getAppByPackage(String packageName) {
-        return Query.one(AppInfo.class, "SELECT * FROM app WHERE package_name = ?", packageName).get();
+        return new Select().from(AppInfo.class)
+                .where("package_name = ?", packageName)
+                .executeSingle();
     }
 
     public static void deleteAll() {
-        ModelList.from(Query.all(AppInfo.class).get()).deleteAll();
+        new Delete().from(AppInfo.class).execute();
     }
 
     public void increaseLaunchCount() {

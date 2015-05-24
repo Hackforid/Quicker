@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 
+import com.activeandroid.ActiveAndroid;
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.event.AppEvent;
 
@@ -16,8 +17,6 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import hugo.weaving.DebugLog;
-import se.emilsjolander.sprinkles.Query;
-import se.emilsjolander.sprinkles.Transaction;
 
 /**
  * Created by kleist on 14-4-2.
@@ -115,7 +114,7 @@ public class AppManager {
     }
 
     private void updateSysAppsWithStored(List<AppInfo> sysApps, List<AppInfo> storedApps) {
-        Transaction transaction = new Transaction();
+        ActiveAndroid.beginTransaction();
         for (int i = 0, length = sysApps.size(); i < length; i++) {
             AppInfo sysApp = sysApps.get(i);
             AppInfo storedApp = findAppInListByPackage(storedApps, sysApp.packageName);
@@ -123,31 +122,30 @@ public class AppManager {
                 sysApps.set(i, storedApp);
             } else {
                 mParser.parseAppNameToT9(sysApp);
-                storeApp(sysApp, transaction);
+                storeApp(sysApp);
             }
         }
-        transaction.setSuccessful(true);
-        transaction.finish();
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
     }
 
     private void updateStoredAppWithSys() {
         List<AppInfo> storedApps = loadAppFromDB();
 
-        Transaction transaction = new Transaction();
+        ActiveAndroid.beginTransaction();
 
         for (AppInfo appInfo : storedApps) {
             AppInfo sysApp = findAppInListByPackage(mAppInfos, appInfo.packageName);
             if (sysApp == null) {
                 try {
-                    appInfo.delete(transaction);
+                    appInfo.delete();
                 } catch (Exception e) {
                     DLog.d(e.toString());
                 }
             }
         }
-
-        transaction.setSuccessful(true);
-        transaction.finish();
+        ActiveAndroid.setTransactionSuccessful();
+        ActiveAndroid.endTransaction();
     }
 
     private AppInfo findAppInListByPackage(List<AppInfo> list, String packageName) {
@@ -170,20 +168,6 @@ public class AppManager {
 
 
     private void storeApp(AppInfo appInfo) {
-        storeApp(appInfo, null);
-    }
-
-    private void storeApp(AppInfo appInfo, Transaction transaction) {
-        if (transaction != null) {
-            appInfo.save(transaction);
-        } else {
-            appInfo.save();
-        }
-    }
-
-    public void increaseLaunchCount(String packageName) {
-        AppInfo appInfo = Query.one(AppInfo.class, "SELECT * FROM app WHERE package_name = ?", packageName).get();
-        appInfo.launchCount += 1;
         appInfo.save();
     }
 

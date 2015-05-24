@@ -62,6 +62,12 @@
             </intent-filter>
         </receiver>
 
+        <meta-data android:name="AA_DB_NAME" android:value="meemo.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_SERIALIZERS"
+                   android:value="com.smilehacker.meemo.util.db.StringArrayTypeSerializer" />
+        <meta-data android:name="AA_MODELS"
+                   android:value="com.smilehacker.meemo.data.model.AppInfo" />
     </application>
 
 
