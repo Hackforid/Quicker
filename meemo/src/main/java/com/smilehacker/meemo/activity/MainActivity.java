@@ -5,7 +5,7 @@ import android.os.StrictMode;
 
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.data.PrefsManager;
-import com.smilehacker.meemo.frgments.DialFragment;
+import com.smilehacker.meemo.fragment.DialFragment;
 import com.smilehacker.meemo.plugin.GAActivity;
 
 

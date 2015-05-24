@@ -1,4 +1,4 @@
-package com.smilehacker.meemo.frgments;
+package com.smilehacker.meemo.fragment;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -34,11 +34,11 @@ import com.smilehacker.meemo.data.PrefsManager;
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.event.AppEvent;
 import com.smilehacker.meemo.service.MainService;
-import com.smilehacker.meemo.utils.AppManager;
-import com.smilehacker.meemo.utils.DLog;
-import com.smilehacker.meemo.utils.PackageHelper;
-import com.smilehacker.meemo.views.FlipGridLayout;
-import com.smilehacker.meemo.views.KeyView;
+import com.smilehacker.meemo.util.AppManager;
+import com.smilehacker.meemo.util.DLog;
+import com.smilehacker.meemo.util.PackageHelper;
+import com.smilehacker.meemo.view.FlipGridLayout;
+import com.smilehacker.meemo.view.KeyView;
 
 import java.util.ArrayList;
 

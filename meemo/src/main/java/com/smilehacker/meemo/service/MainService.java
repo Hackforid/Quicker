@@ -26,7 +26,7 @@ import com.smilehacker.meemo.activity.MainActivity;
 import com.smilehacker.meemo.app.DeviceInfo;
 import com.smilehacker.meemo.data.PrefsManager;
 import com.smilehacker.meemo.data.model.event.FloatViewRefreshEvent;
-import com.smilehacker.meemo.utils.DLog;
+import com.smilehacker.meemo.util.DLog;
 
 import de.greenrobot.event.EventBus;
 

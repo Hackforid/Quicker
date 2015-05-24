@@ -1,9 +1,7 @@
 package com.smilehacker.meemo.adapter;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +11,9 @@ import android.widget.TextView;
 
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.data.model.AppInfo;
-import com.smilehacker.meemo.frgments.DialFragment;
+import com.smilehacker.meemo.fragment.DialFragment;
 import com.smilehacker.meemo.plugin.image.AsyncIconLoader;
-import com.smilehacker.meemo.utils.DLog;
-import com.smilehacker.meemo.utils.PackageHelper;
+import com.smilehacker.meemo.util.PackageHelper;
 
 import java.util.Iterator;
 import java.util.List;

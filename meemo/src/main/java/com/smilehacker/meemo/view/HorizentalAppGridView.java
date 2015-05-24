@@ -1,4 +1,4 @@
-package com.smilehacker.meemo.views;
+package com.smilehacker.meemo.view;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -17,8 +17,8 @@ import android.widget.ImageView;
 
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.data.model.AppInfo;
-import com.smilehacker.meemo.utils.DLog;
-import com.smilehacker.meemo.utils.PackageHelper;
+import com.smilehacker.meemo.util.DLog;
+import com.smilehacker.meemo.util.PackageHelper;
 
 import java.util.ArrayList;
 import java.util.List;

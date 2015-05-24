@@ -4,8 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.smilehacker.meemo.utils.AppManager;
-import com.smilehacker.meemo.utils.DLog;
+import com.smilehacker.meemo.util.AppManager;
+import com.smilehacker.meemo.util.DLog;
 
 /**
  * Created by kleist on 14-4-5.

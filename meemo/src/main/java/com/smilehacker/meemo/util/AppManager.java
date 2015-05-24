@@ -1,4 +1,4 @@
-package com.smilehacker.meemo.utils;
+package com.smilehacker.meemo.util;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

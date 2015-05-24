@@ -1,11 +1,9 @@
 package com.smilehacker.meemo.app;
 
 import android.app.Application;
-import android.content.Intent;
 
 import com.smilehacker.meemo.data.model.AppInfo;
 import com.smilehacker.meemo.data.model.StringArraySerializer;
-import com.smilehacker.meemo.service.MainService;
 
 import se.emilsjolander.sprinkles.Migration;
 import se.emilsjolander.sprinkles.Sprinkles;
@@ -13,7 +11,7 @@ import se.emilsjolander.sprinkles.Sprinkles;
 /**
  * Created by kleist on 14-4-5.
  */
-public class MyApplication extends Application {
+public class App extends Application {
 
     @Override
     public void onCreate() {

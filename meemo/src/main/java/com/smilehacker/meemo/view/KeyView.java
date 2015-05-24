@@ -1,4 +1,4 @@
-package com.smilehacker.meemo.views;
+package com.smilehacker.meemo.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.widget.TextView;
 import com.smilehacker.meemo.R;
 
 /**
- * Created by kleist on 14-5-7.
+ * Created by kleist on 14-4-1.
  */
-public class KeyFloatWindowKey extends RelativeLayout {
+public class KeyView extends RelativeLayout {
 
     private String[] mLetter = {"", "0", "ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"};
 
@@ -19,7 +19,13 @@ public class KeyFloatWindowKey extends RelativeLayout {
 
     private int mNum;
 
-    public KeyFloatWindowKey(Context context, int num) {
+
+    /**
+     *
+     * @param context
+     * @param num [1-9]
+     */
+    public KeyView(Context context, int num) {
         super(context);
         setBackgroundResource(R.drawable.selector_tansparent);
 
@@ -33,11 +39,12 @@ public class KeyFloatWindowKey extends RelativeLayout {
     }
 
     private void initView() {
-        LayoutInflater.from(getContext()).inflate(R.layout.view_floatwindow_key, this);
+        LayoutInflater.from(getContext()).inflate(R.layout.view_key, this);
         mTvNum = (TextView) findViewById(R.id.tv_num);
         mTvLetter = (TextView) findViewById(R.id.tv_letter);
 
         mTvNum.setText(Integer.toString(mNum));
         mTvLetter.setText(mLetter[mNum]);
     }
+
 }

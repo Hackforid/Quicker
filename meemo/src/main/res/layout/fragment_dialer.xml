@@ -110,7 +110,7 @@
         android:divider="@android:color/darker_gray"
         />
 
-    <com.smilehacker.meemo.views.FlipGridLayout
+    <com.smilehacker.meemo.view.FlipGridLayout
         android:id="@+id/gl_keyboard"
         android:layout_width="match_parent"
         android:layout_height="@dimen/keyboard_height"
@@ -119,6 +119,6 @@
         android:columnCount="3"
         android:rowCount="3"
         >
-    </com.smilehacker.meemo.views.FlipGridLayout>
+    </com.smilehacker.meemo.view.FlipGridLayout>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.smilehacker.meemo.utils;
+package com.smilehacker.meemo.util;
 
 import com.smilehacker.meemo.data.model.AppInfo;
 

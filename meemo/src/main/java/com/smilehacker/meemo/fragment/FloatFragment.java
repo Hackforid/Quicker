@@ -1,4 +1,4 @@
-package com.smilehacker.meemo.frgments;
+package com.smilehacker.meemo.fragment;
 
 import android.app.Fragment;
 import android.os.Build;
@@ -9,13 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.GridLayout;
-import android.widget.GridView;
 
 import com.smilehacker.meemo.R;
-import com.smilehacker.meemo.utils.AppManager;
-import com.smilehacker.meemo.utils.DLog;
-import com.smilehacker.meemo.views.HorizentalAppGridView;
-import com.smilehacker.meemo.views.KeyFloatWindowKey;
+import com.smilehacker.meemo.util.AppManager;
+import com.smilehacker.meemo.view.HorizentalAppGridView;
+import com.smilehacker.meemo.view.KeyFloatWindowKey;
 
 /**
  * Created by kleist on 14-5-7.

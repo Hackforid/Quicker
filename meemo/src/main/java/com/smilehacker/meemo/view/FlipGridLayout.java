@@ -1,4 +1,4 @@
-package com.smilehacker.meemo.views;
+package com.smilehacker.meemo.view;
 
 import android.content.Context;
 import android.util.AttributeSet;

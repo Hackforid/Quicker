@@ -23,8 +23,8 @@ import com.smilehacker.meemo.data.PrefsManager;
 import com.smilehacker.meemo.data.model.event.FloatViewRefreshEvent;
 import com.smilehacker.meemo.plugin.GAPreferenceActivity;
 import com.smilehacker.meemo.service.MainService;
-import com.smilehacker.meemo.utils.AppManager;
-import com.smilehacker.meemo.utils.PackageHelper;
+import com.smilehacker.meemo.util.AppManager;
+import com.smilehacker.meemo.util.PackageHelper;
 
 import de.greenrobot.event.EventBus;
 

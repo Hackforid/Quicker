@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.smilehacker.meemo.R;
 import com.smilehacker.meemo.app.DeviceInfo;
-import com.smilehacker.meemo.frgments.FloatFragment;
+import com.smilehacker.meemo.fragment.FloatFragment;
 import com.smilehacker.meemo.plugin.GAActivity;
 
 /**
