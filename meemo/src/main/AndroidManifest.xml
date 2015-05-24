@@ -42,7 +42,9 @@
         </activity>
 
         <service
-            android:name=".service.MainService">
+            android:name=".service.MainService"
+            android:process=":remote"
+            >
         </service>
 
         <receiver android:name="com.smilehacker.meemo.receiver.PackageUpdateReceiver" >
